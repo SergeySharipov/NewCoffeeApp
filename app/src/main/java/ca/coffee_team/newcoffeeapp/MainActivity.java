@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements
     private static final int ORDERS_FRAGMENT = 1;
     private static final int PRODUCTS_FRAGMENT = 2;
     private SingleViewFragment mFirstPageFragment;
-    private Fragment mFragment;
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private BottomNavigationView mBottomNavigationView;
@@ -40,16 +39,15 @@ public class MainActivity extends AppCompatActivity implements
         setTitle(CUSTOMERS_FRAGMENT);
         if(mFirstPageFragment==null) {
             mFirstPageFragment = new SingleViewFragment();
-            mFragment=new CustomersFragment();
         }
     }
 
     private void initViewPager() {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(new OnPageChangeListener());
+        mViewPager.setOffscreenPageLimit(SectionsPagerAdapter.countSections);
     }
 
     private void initBottomNavigation() {
@@ -71,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements
     public void setTitle(int fragmentId) {
         switch (fragmentId) {
             case CUSTOMERS_FRAGMENT:
-                setTitle("CUSTOMERS_FRAGMENT");
+                setTitle("Customers");
                 break;
             case ORDERS_FRAGMENT:
-                setTitle("ORDERS_FRAGMENT");
+                setTitle("Orders");
                 break;
             case PRODUCTS_FRAGMENT:
-                setTitle("PRODUCTS_FRAGMENT");
+                setTitle("Products");
                 break;
         }
     }
@@ -110,31 +108,27 @@ public class MainActivity extends AppCompatActivity implements
         setTitle(fragmentId);
         switch (fragmentId) {
             case CUSTOMERS_FRAGMENT:
-                //return new CustomersFragment();
                 return mFirstPageFragment;
             case ORDERS_FRAGMENT:
                 return OrdersFragment.newInstance(2);
             case PRODUCTS_FRAGMENT:
                 return new ProductsFragment();
         }
-        return null;//new CustomersFragment();
+        return new ProductsFragment();
     }
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        if (findViewById(R.id.container) != null
-                && getSupportFragmentManager().findFragmentByTag(OrdersFragment.TAG) == null) {
-            mFragment = new OrdersFragment();
+        if (findViewById(R.id.container) != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.addToBackStack(OrdersFragment.TAG);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.replace(R.id.container, mFragment, OrdersFragment.TAG).commit();
-        } else  if (findViewById(R.id.container) != null){
-            mFragment = new ProductsFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.addToBackStack(ProductsFragment.TAG);
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.replace(R.id.container, mFragment, ProductsFragment.TAG).commit();
+            if(getSupportFragmentManager().findFragmentByTag(OrdersFragment.TAG) == null) {
+                transaction.addToBackStack(OrdersFragment.TAG);
+                transaction.replace(R.id.container, new OrdersFragment(), OrdersFragment.TAG).commit();
+            } else{
+                transaction.addToBackStack(ProductsFragment.TAG);
+                transaction.replace(R.id.container, new ProductsFragment(), ProductsFragment.TAG).commit();
+            }
         }
     }
 
@@ -145,22 +139,7 @@ public class MainActivity extends AppCompatActivity implements
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.container, new CustomersFragment(), CustomersFragment.TAG).commit();
         }
-//        else {
-//            Toast.makeText(this, "replace", Toast.LENGTH_SHORT).show();
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.replace(R.id.container,mFragment).commit();
-//        }
     }
-
-//    @Override
-//    public void onBackPressed() {
-////        if(getSupportFragmentManager().findFragmentByTag(CustomersFragment.TAG)==null){
-////            Toast.makeText(this, "CustomersFragment.TAG)==null", Toast.LENGTH_SHORT).show();
-////        }
-////        if(getSupportFragmentManager().findFragmentByTag(OrdersFragment.TAG)==null){
-////            Toast.makeText(this, "OrdersFragment.TAG)==null", Toast.LENGTH_SHORT).show();
-////        }
-//    }
 
     private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         private static final int countSections = 3; // Show 3 total pages.
