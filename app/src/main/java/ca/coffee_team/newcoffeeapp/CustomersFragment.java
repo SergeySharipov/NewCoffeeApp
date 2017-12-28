@@ -18,8 +18,8 @@ import ca.coffee_team.newcoffeeapp.dummy.DummyContent.DummyItem;
 
 public class CustomersFragment extends Fragment {
 
-    public static final String TAG = "CustomersFragment";
-    private CustomersRecyclerViewAdapter.OnListFragmentInteractionListener mListener;
+    public static final String TAG = "Customers";
+    private OnListFragmentInteractionListener mListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,13 +37,30 @@ public class CustomersFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mListener.onResumeFragment(TAG);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CustomersRecyclerViewAdapter.OnListFragmentInteractionListener) {
-            mListener = (CustomersRecyclerViewAdapter.OnListFragmentInteractionListener) context;
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(DummyItem item);
+        void onResumeFragment(String tag);
     }
 }

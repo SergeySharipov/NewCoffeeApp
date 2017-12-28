@@ -9,15 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import ca.coffee_team.newcoffeeapp.adapter.CustomersRecyclerViewAdapter;
 import ca.coffee_team.newcoffeeapp.adapter.ProductsRecyclerViewAdapter;
 import ca.coffee_team.newcoffeeapp.dummy.DummyContent;
 import ca.coffee_team.newcoffeeapp.dummy.DummyContent.DummyItem;
 
-public class ProductsFragment extends Fragment implements ProductsRecyclerViewAdapter.OnListFragmentInteractionListener{
+public class ProductsFragment extends Fragment {
 
-    public static final String TAG = "ProductsFragment";
+    public static final String TAG = "Products";
+    private OnListFragmentInteractionListener mListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,14 +31,36 @@ public class ProductsFragment extends Fragment implements ProductsRecyclerViewAd
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ProductsRecyclerViewAdapter(DummyContent.ITEMS, this));
+            recyclerView.setAdapter(new ProductsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mListener.onResumeFragment(TAG);
+    }
 
     @Override
-    public void onListFragmentInteraction(DummyItem item) {
-        //startActivity(new Intent(this,);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(DummyItem item);
+        void onResumeFragment(String tag);
     }
 }

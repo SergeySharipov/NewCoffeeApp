@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import ca.coffee_team.newcoffeeapp.CustomersFragment;
 import ca.coffee_team.newcoffeeapp.R;
 import ca.coffee_team.newcoffeeapp.dummy.DummyContent.DummyItem;
 
@@ -14,9 +15,9 @@ import java.util.List;
 public class CustomersRecyclerViewAdapter extends RecyclerView.Adapter<CustomersRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final CustomersFragment.OnListFragmentInteractionListener mListener;
 
-    public CustomersRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public CustomersRecyclerViewAdapter(List<DummyItem> items, CustomersFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,10 +37,6 @@ public class CustomersRecyclerViewAdapter extends RecyclerView.Adapter<Customers
     @Override
     public int getItemCount() {
         return mValues.size();
-    }
-
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(DummyItem item);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

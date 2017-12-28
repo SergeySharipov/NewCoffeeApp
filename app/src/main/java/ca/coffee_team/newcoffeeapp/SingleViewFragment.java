@@ -17,7 +17,16 @@ import android.widget.Toast;
 public class SingleViewFragment extends Fragment {
 
     private static final String TAG = "SingleViewFragment";
+    private int currentFragmentId=0;
     private OnSingleViewFragmentCreateListener mListener;
+
+    public int getCurrentFragmentId() {
+        return currentFragmentId;
+    }
+
+    public void setCurrentFragmentId(int currentFragmentId) {
+        this.currentFragmentId = currentFragmentId;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +37,6 @@ public class SingleViewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(getContext(), "onViewCreated", Toast.LENGTH_SHORT).show();
         mListener.onFirstPageFragmentCreated();
     }
 
