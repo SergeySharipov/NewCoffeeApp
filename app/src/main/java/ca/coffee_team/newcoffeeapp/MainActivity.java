@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements
                 titleFirstPage = OrdersFragment.TAG;
                 transaction.addToBackStack(OrdersFragment.TAG);
                 transaction.replace(R.id.container, new OrdersFragment(), OrdersFragment.TAG).commit();
-            } else {
+            } else if (getSupportFragmentManager().findFragmentByTag(ProductsFragment.TAG) == null) {
                 setTitle(PRODUCTS_FRAGMENT);
                 titleFirstPage = ProductsFragment.TAG;
                 transaction.addToBackStack(ProductsFragment.TAG);
