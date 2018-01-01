@@ -1,5 +1,6 @@
 package ca.coffee_team.newcoffeeapp.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,17 +9,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.coffee_team.newcoffeeapp.fragment.OnListItemClickListener;
 import ca.coffee_team.newcoffeeapp.R;
+import ca.coffee_team.newcoffeeapp.fragment.OnListItemClickListener;
+import ca.coffee_team.newcoffeeapp.model.ModelObject;
 import ca.coffee_team.newcoffeeapp.model.Product;
 
-public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRecyclerViewAdapter.ViewHolder> {
+public class ProductsRecyclerViewAdapter extends
+        RecyclerView.Adapter<ProductsRecyclerViewAdapter.ViewHolder>
+        implements RecyclerViewAdapter {
 
-    private final List<Product> mValues;
-    private final OnListItemClickListener mListener;
+    private List<Product> mValues;
+    private OnListItemClickListener mListener;
 
-    public ProductsRecyclerViewAdapter(List<Product> items, OnListItemClickListener listener) {
-        mValues = items;
+    public ProductsRecyclerViewAdapter(@NonNull List<Product> items, OnListItemClickListener listener) {
+        mValues=items;
         mListener = listener;
     }
 
@@ -39,6 +43,15 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
         return mValues.size();
     }
 
+    @Override
+    @SuppressWarnings(value = "unchecked")
+    public void swap(List<? extends ModelObject> items) {
+        if (!items.isEmpty() && items.get(0) instanceof Product) {
+            mValues = (List<Product>) items;
+            notifyDataSetChanged();
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
         private final TextView mIdView;
@@ -52,10 +65,10 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
             mContentView = view.findViewById(R.id.content);
         }
 
-        void bind(Product item){
-            mItem=item;
-            mIdView.setText(mItem.getStringId());
-            mContentView.setText(mItem.getName());
+        void bind(Product item) {
+            mItem = item;
+            mIdView.setText(mItem.getProductName());
+            mContentView.setText(mItem.getPrice() + "");
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override

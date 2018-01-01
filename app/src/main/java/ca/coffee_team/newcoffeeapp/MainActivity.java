@@ -56,11 +56,13 @@ public class MainActivity extends AppCompatActivity implements
             mFragmentContainer3 = (FragmentContainer) getSupportFragmentManager().getFragment(savedInstanceState, THIRD_PAGE + "");
         } else {
             mStackNavigationPageSelected.pushPage(FIRST_PAGE);
-
-            mFragmentContainer1 = FragmentContainer.newInstance(FIRST_PAGE);
-            mFragmentContainer2 = FragmentContainer.newInstance(SECOND_PAGE);
-            mFragmentContainer3 = FragmentContainer.newInstance(THIRD_PAGE);
         }
+        if(mFragmentContainer1==null)
+        mFragmentContainer1 = FragmentContainer.newInstance(FIRST_PAGE);
+        if(mFragmentContainer2==null)
+            mFragmentContainer2 = FragmentContainer.newInstance(SECOND_PAGE);
+        if(mFragmentContainer3==null)
+            mFragmentContainer3 = FragmentContainer.newInstance(THIRD_PAGE);
 
         initBottomNavigationView();
         initViewPager();
@@ -109,9 +111,12 @@ public class MainActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
         outState.putIntegerArrayList(STACK, mStackNavigationPageSelected.toIntArrayList());
 
-        getSupportFragmentManager().putFragment(outState, FIRST_PAGE + "", mFragmentContainer1);
-        getSupportFragmentManager().putFragment(outState, SECOND_PAGE + "", mFragmentContainer2);
-        getSupportFragmentManager().putFragment(outState, THIRD_PAGE + "", mFragmentContainer3);
+        if (mFragmentContainer1.isAdded())
+            getSupportFragmentManager().putFragment(outState, FIRST_PAGE + "", mFragmentContainer1);
+        if (mFragmentContainer2.isAdded())
+            getSupportFragmentManager().putFragment(outState, SECOND_PAGE + "", mFragmentContainer2);
+        if (mFragmentContainer3.isAdded())
+            getSupportFragmentManager().putFragment(outState, THIRD_PAGE + "", mFragmentContainer3);
     }
 
 

@@ -1,21 +1,21 @@
 package ca.coffee_team.newcoffeeapp.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.Nullable;
 
-import ca.coffee_team.newcoffeeapp.R;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import ca.coffee_team.newcoffeeapp.adapter.OrdersRecyclerViewAdapter;
-import ca.coffee_team.newcoffeeapp.model.TempData;
+import ca.coffee_team.newcoffeeapp.model.ModelObject;
+import ca.coffee_team.newcoffeeapp.model.Order;
 
 public class OrdersFragment extends StandardListFragment {
     private static final String TITLE = "Orders";
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
     private int mCustomerId;
+    private List<Order> mListItems;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -34,32 +34,36 @@ public class OrdersFragment extends StandardListFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mListItems = new ArrayList<>();
         if (getArguments() != null) {
             mCustomerId = getArguments().getInt(CUSTOMER_ID);
         }
+        setAdapter(new OrdersRecyclerViewAdapter(mListItems, mOnListItemClickListener));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_customers_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new OrdersRecyclerViewAdapter(TempData.getOrders(), mOnListItemClickListener));
-        }
-        return view;
+    void updateListItems() {
+        mServerAPIHelper.getOrders();
     }
 
+    @Override
+    List<? extends ModelObject> getListItems() {
+        return mListItems;
+    }
 
     @Override
     public String getTitle() {
         return TITLE;
+    }
+
+    @Override
+    @SuppressWarnings (value="unchecked")
+    void swapListItems(List<? extends ModelObject> list) {
+        if(!list.isEmpty()&&list.get(0) instanceof Order) {
+            mListItems.clear();
+            mListItems.addAll((List<? extends Order>) list);
+        }
     }
 }
