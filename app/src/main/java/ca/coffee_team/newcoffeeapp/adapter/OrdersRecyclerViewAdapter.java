@@ -8,16 +8,16 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.coffee_team.newcoffeeapp.OrdersFragment;
+import ca.coffee_team.newcoffeeapp.fragment.OnListItemClickListener;
 import ca.coffee_team.newcoffeeapp.R;
-import ca.coffee_team.newcoffeeapp.dummy.DummyContent.DummyItem;
+import ca.coffee_team.newcoffeeapp.model.Order;
 
 public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OrdersFragment.OnListFragmentInteractionListener mListener;
+    private final List<Order> mValues;
+    private final OnListItemClickListener mListener;
 
-    public OrdersRecyclerViewAdapter(List<DummyItem> items, OrdersFragment.OnListFragmentInteractionListener listener) {
+    public OrdersRecyclerViewAdapter(List<Order> items, OnListItemClickListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -25,7 +25,7 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_customers, parent, false);
+                .inflate(R.layout.item_fragment_orders_list, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,25 +43,25 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
         private final View mView;
         private final TextView mIdView;
         private final TextView mContentView;
-        private DummyItem mItem;
+        private Order mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = view.findViewById(R.id.id);
+            mContentView = view.findViewById(R.id.content);
         }
 
-        void bind(DummyItem dummyItem){
-            mItem = dummyItem;
-            mIdView.setText(dummyItem.id);
-            mContentView.setText("Orders");
+        void bind(Order item){
+            mItem=item;
+            mIdView.setText(mItem.getStringId());
+            mContentView.setText(mItem.getName());
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (null != mListener) {
-                        mListener.onListFragmentInteraction(mItem);
+                        mListener.onListItemClick(mItem);
                     }
                 }
             });

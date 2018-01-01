@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
-    android:name="ca.coffee_team.newcoffeeapp.CustomersFragment"
+    android:name="ca.coffee_team.tempcoffeeapp.CustomersFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="ca.coffee_team.newcoffeeapp.CustomersFragment"
-    tools:listitem="@layout/fragment_customers" />
+    tools:context="ca.coffee_team.newcoffeeapp.fragment.CustomersFragment"
+    tools:listitem="@layout/item_fragment_customers_list" />

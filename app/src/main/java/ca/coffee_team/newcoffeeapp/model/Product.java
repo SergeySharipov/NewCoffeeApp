@@ -1,8 +1,7 @@
 package ca.coffee_team.newcoffeeapp.model;
 
-/**
- * Created by Sergey-PC on 24.12.2017.
- */
-
-public class Product {
+public class Product extends ModelObject{
+    public Product(int id, String name) {
+        super(id, name);
+    }
 }

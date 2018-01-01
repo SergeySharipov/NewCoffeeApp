@@ -1,8 +1,8 @@
 package ca.coffee_team.newcoffeeapp.model;
 
-/**
- * Created by Sergey-PC on 24.12.2017.
- */
+public class Customer extends ModelObject{
 
-public class Customer {
+    public Customer(int id, String name) {
+        super(id, name);
+    }
 }

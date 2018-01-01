@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">NewCoffeeApp</string>
-    <string name="title_customers">Customers</string>
-    <string name="title_orders">Orders</string>
-    <string name="title_products">Products</string>
+    <string name="customers">Customers</string>
+    <string name="orders">Orders</string>
+    <string name="products">Products</string>
+    <!--                      -                            -->
+
 </resources>

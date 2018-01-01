@@ -6,64 +6,88 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
-import ca.coffee_team.newcoffeeapp.dummy.DummyContent;
-import ca.coffee_team.newcoffeeapp.model.Customer;
+import ca.coffee_team.newcoffeeapp.fragment.CustomersFragment;
+import ca.coffee_team.newcoffeeapp.fragment.FragmentContainer;
+import ca.coffee_team.newcoffeeapp.fragment.OnListItemClickListener;
+import ca.coffee_team.newcoffeeapp.fragment.OrdersFragment;
+import ca.coffee_team.newcoffeeapp.fragment.ProductsFragment;
+import ca.coffee_team.newcoffeeapp.fragment.StandardFragment;
+import ca.coffee_team.newcoffeeapp.model.ModelObject;
+import ca.coffee_team.newcoffeeapp.util.StackNavigationPageSelected;
 
 public class MainActivity extends AppCompatActivity implements
-        CustomersFragment.OnListFragmentInteractionListener,
-        OrdersFragment.OnListFragmentInteractionListener,
-        ProductsFragment.OnListFragmentInteractionListener,
-        SingleViewFragment.OnSingleViewFragmentCreateListener {
-    private static final int FIRST_PAGE_FRAGMENT = 0;
-    private static final int ORDERS_FRAGMENT = 1;
-    private static final int PRODUCTS_FRAGMENT = 2;
-    private String titleFirstPage = "";
-    private SingleViewFragment mFirstPageFragment;
-    private ViewPager mViewPager;
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        FragmentContainer.OnFragmentContainerManageListener,
+        OnListItemClickListener, BottomNavigationView.OnNavigationItemReselectedListener {
+
+    private static final int FIRST_PAGE = 0;
+    private static final int SECOND_PAGE = 1;
+    private static final int THIRD_PAGE = 2;
+    private static final String STACK = "ca.coffee_team.newcoffeeapp.STACK";
+
+    private StackNavigationPageSelected mStackNavigationPageSelected;
+    private FragmentContainer mFragmentContainer1;
+    private FragmentContainer mFragmentContainer2;
+    private FragmentContainer mFragmentContainer3;
     private BottomNavigationView mBottomNavigationView;
     private ActionBar mActionBar;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.activity_main);
 
         mActionBar = getSupportActionBar();
 
-        if (mFirstPageFragment == null) {
-            mFirstPageFragment = new SingleViewFragment();
+        mStackNavigationPageSelected = new StackNavigationPageSelected(SectionsPagerAdapter.countSections);
+
+        if (savedInstanceState != null) {
+            mStackNavigationPageSelected.fromIntArrayList(savedInstanceState.getIntegerArrayList(STACK));
+
+            mFragmentContainer1 = (FragmentContainer) getSupportFragmentManager().getFragment(savedInstanceState, FIRST_PAGE + "");
+            mFragmentContainer2 = (FragmentContainer) getSupportFragmentManager().getFragment(savedInstanceState, SECOND_PAGE + "");
+            mFragmentContainer3 = (FragmentContainer) getSupportFragmentManager().getFragment(savedInstanceState, THIRD_PAGE + "");
+        } else {
+            mStackNavigationPageSelected.pushPage(FIRST_PAGE);
+
+            mFragmentContainer1 = FragmentContainer.newInstance(FIRST_PAGE);
+            mFragmentContainer2 = FragmentContainer.newInstance(SECOND_PAGE);
+            mFragmentContainer3 = FragmentContainer.newInstance(THIRD_PAGE);
         }
 
+        initBottomNavigationView();
         initViewPager();
-        initBottomNavigation();
-        setTitle(FIRST_PAGE_FRAGMENT);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setDisplayHomeAsUpEnabled(true);
-    }
-
-    void setDisplayHomeAsUpEnabled(boolean status){
-        if(getTitle().equals(CustomersFragment.TAG))
-            status = false;
-        if (mActionBar != null) {
-            mActionBar.setDisplayHomeAsUpEnabled(status);
-            mActionBar.setHomeButtonEnabled(status);
+    public StandardFragment getFirstFragment(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                return new CustomersFragment();
+            case SECOND_PAGE:
+                return new OrdersFragment();
+            case THIRD_PAGE:
+                return new ProductsFragment();
         }
+        return new CustomersFragment();
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    public void updateActionBar() {
+        setActionBarTitle(getSelectedBottomNavigationItemPosition());
+        setBackButtonStatus(getSelectedBottomNavigationItemPosition());
+    }
+
+    public void updateActionBar(int position) {
+        setActionBarTitle(position);
+        setBackButtonStatus(position);
     }
 
     private void initViewPager() {
@@ -74,124 +98,174 @@ public class MainActivity extends AppCompatActivity implements
         mViewPager.setOffscreenPageLimit(SectionsPagerAdapter.countSections);
     }
 
-    private void initBottomNavigation() {
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList(STACK, mStackNavigationPageSelected.toIntArrayList());
+
+        getSupportFragmentManager().putFragment(outState, FIRST_PAGE + "", mFragmentContainer1);
+        getSupportFragmentManager().putFragment(outState, SECOND_PAGE + "", mFragmentContainer2);
+        getSupportFragmentManager().putFragment(outState, THIRD_PAGE + "", mFragmentContainer3);
+    }
+
+
+    private void initBottomNavigationView() {
         mBottomNavigationView = findViewById(R.id.navigation);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new OnNavigationItemSelectedListener());
+        mBottomNavigationView.setOnNavigationItemSelectedListener(this);
+        mBottomNavigationView.setOnNavigationItemReselectedListener(this);
     }
 
-    boolean isFragmentIdCorrect(int fragmentId) {
-        switch (fragmentId) {
-            case FIRST_PAGE_FRAGMENT:
-            case ORDERS_FRAGMENT:
-            case PRODUCTS_FRAGMENT:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    public void setTitle(int fragmentId) {
-        switch (fragmentId) {
-            case FIRST_PAGE_FRAGMENT:
-                super.setTitle(titleFirstPage);
+    private void setSelectedBottomNavigationItem(int position) {
+        mStackNavigationPageSelected.pushPage(position);
+        updateActionBar(position);
+        Menu menu = mBottomNavigationView.getMenu();
+        switch (position) {
+            case FIRST_PAGE:
+                menu.findItem(R.id.navigation_first_page).setChecked(true);
                 break;
-            case ORDERS_FRAGMENT:
-                super.setTitle(OrdersFragment.TAG);
+            case SECOND_PAGE:
+                menu.findItem(R.id.navigation_second_page).setChecked(true);
                 break;
-            case PRODUCTS_FRAGMENT:
-                super.setTitle(ProductsFragment.TAG);
+            case THIRD_PAGE:
+                menu.findItem(R.id.navigation_third_page).setChecked(true);
                 break;
         }
     }
 
-    void setSelectedItemId(int fragmentId) {
-        setTitle(fragmentId);
-        if (isFragmentIdCorrect(fragmentId) && mBottomNavigationView != null) {
-            switch (fragmentId) {
-                case FIRST_PAGE_FRAGMENT:
-                    setDisplayHomeAsUpEnabled(true);
-                    mBottomNavigationView.setSelectedItemId(R.id.navigation_customers);
-                    break;
-                case ORDERS_FRAGMENT:
-                    setDisplayHomeAsUpEnabled(false);
-                    mBottomNavigationView.setSelectedItemId(R.id.navigation_orders);
-                    break;
-                case PRODUCTS_FRAGMENT:
-                    setDisplayHomeAsUpEnabled(false);
-                    mBottomNavigationView.setSelectedItemId(R.id.navigation_products);
-                    break;
-            }
+    private void selectBottomNavigationItem(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                mBottomNavigationView.setSelectedItemId(R.id.navigation_first_page);
+                break;
+            case SECOND_PAGE:
+                mBottomNavigationView.setSelectedItemId(R.id.navigation_second_page);
+                break;
+            case THIRD_PAGE:
+                mBottomNavigationView.setSelectedItemId(R.id.navigation_third_page);
+                break;
         }
+        updateActionBar(position);
     }
 
-    void setFragment(int fragmentId) {
-        setTitle(fragmentId);
-        if (isFragmentIdCorrect(fragmentId) && mViewPager != null) {
-            mViewPager.setCurrentItem(fragmentId);
-        }
+    private int getSelectedBottomNavigationItemPosition() {
+        return getSelectedBottomNavigationItemPosition(mBottomNavigationView.getSelectedItemId());
     }
 
-    public Fragment getFragmentById(int fragmentId) {
-        setTitle(fragmentId);
-        switch (fragmentId) {
-            case FIRST_PAGE_FRAGMENT:
-                return mFirstPageFragment;
-            case ORDERS_FRAGMENT:
-                return OrdersFragment.newInstance(2);
-            case PRODUCTS_FRAGMENT:
-                return new ProductsFragment();
+    private int getSelectedBottomNavigationItemPosition(int itemId) {
+        switch (itemId) {
+            case R.id.navigation_first_page:
+                return FIRST_PAGE;
+            case R.id.navigation_second_page:
+                return SECOND_PAGE;
+            case R.id.navigation_third_page:
+                return THIRD_PAGE;
         }
-        return new ProductsFragment();
+        return 0;
     }
 
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        if (findViewById(R.id.container) != null
-                && mBottomNavigationView.getSelectedItemId() == R.id.navigation_customers) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-            if (getSupportFragmentManager().findFragmentByTag(OrdersFragment.TAG) == null) {
-                setTitle(ORDERS_FRAGMENT);
-                titleFirstPage = OrdersFragment.TAG;
-                transaction.addToBackStack(OrdersFragment.TAG);
-                transaction.replace(R.id.container, new OrdersFragment(), OrdersFragment.TAG).commit();
-            } else if (getSupportFragmentManager().findFragmentByTag(ProductsFragment.TAG) == null) {
-                setTitle(PRODUCTS_FRAGMENT);
-                titleFirstPage = ProductsFragment.TAG;
-                transaction.addToBackStack(ProductsFragment.TAG);
-                transaction.replace(R.id.container, new ProductsFragment(), ProductsFragment.TAG).commit();
-            }
-            setDisplayHomeAsUpEnabled(true);
+    private FragmentContainer getFragmentContainer(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                return mFragmentContainer1;
+            case SECOND_PAGE:
+                return mFragmentContainer2;
+            case THIRD_PAGE:
+                return mFragmentContainer3;
         }
-    }
-
-    @Override
-    public void onResumeFragment(String tag) {
-        super.setTitle(tag);
-        titleFirstPage = tag;
-        setDisplayHomeAsUpEnabled(true);
+        return mFragmentContainer1;
     }
 
     @Override
     public void onBackPressed() {
-        if (mBottomNavigationView.getSelectedItemId() == R.id.navigation_customers
-                && mFirstPageFragment != null) {
+        int position = getSelectedBottomNavigationItemPosition();
+        FragmentContainer fragmentContainer = getFragmentContainer(position);
+
+        if (!fragmentContainer.isBackStackEmpty()) {
+            fragmentContainer.showPreviousFragment();
+        } else if (mStackNavigationPageSelected.size() > 1) {
+            int previousPage = mStackNavigationPageSelected.popPage();
+            selectBottomNavigationItem(previousPage);
+        } else {
             super.onBackPressed();
-            setDisplayHomeAsUpEnabled(true);
-        } else
-            finish();
+        }
+
+        updateActionBar();
     }
 
     @Override
-    public void onFirstPageFragmentCreated() {
-        if (findViewById(R.id.container) != null
-                && getSupportFragmentManager().findFragmentByTag(CustomersFragment.TAG) == null) {
-            mFirstPageFragment.setCurrentFragmentId(FIRST_PAGE_FRAGMENT);
-            titleFirstPage = CustomersFragment.TAG;
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.container, new CustomersFragment(), CustomersFragment.TAG).commit();
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int page = getSelectedBottomNavigationItemPosition(item.getItemId());
+        mViewPager.setCurrentItem(page);
+        updateActionBar(page);
+        return false;
+    }
+
+    @Override
+    public void onNavigationItemReselected(@NonNull MenuItem item) {
+        int page = getSelectedBottomNavigationItemPosition(item.getItemId());
+        mViewPager.setCurrentItem(page);
+        getFragmentContainer(page).showFirstFragment();
+        setBackButtonStatus(false);
+        setActionBarTitle(page);
+    }
+
+    public void setActionBarTitle(int position) {
+        String title = getFragmentContainer(position).getTitle();
+        setTitle(title);
+    }
+
+    public void setBackButtonStatus(boolean status) {
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(status);
+            mActionBar.setHomeButtonEnabled(status);
         }
+    }
+
+    public void setBackButtonStatus(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                setBackButtonStatus(mFragmentContainer1.isBackButtonStatus());
+                break;
+            case SECOND_PAGE:
+                setBackButtonStatus(mFragmentContainer2.isBackButtonStatus());
+                break;
+            case THIRD_PAGE:
+                setBackButtonStatus(mFragmentContainer3.isBackButtonStatus());
+                break;
+        }
+    }
+
+    @Override
+    public void onListItemClick(ModelObject item) {
+        switch (getSelectedBottomNavigationItemPosition()) {
+            case FIRST_PAGE:
+                mFragmentContainer1.showNextFragment();
+                break;
+            case SECOND_PAGE:
+                mFragmentContainer2.showNextFragment();
+                break;
+            case THIRD_PAGE:
+                mFragmentContainer3.showNextFragment();
+                break;
+        }
+    }
+
+    public Fragment getPageFragmentByPosition(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                return mFragmentContainer1;
+            case SECOND_PAGE:
+                return mFragmentContainer2;
+            case THIRD_PAGE:
+                return mFragmentContainer3;
+        }
+        return new ProductsFragment();
     }
 
     private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
@@ -203,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public Fragment getItem(int position) {
-            return getFragmentById(position);
+            return getPageFragmentByPosition(position);
         }
 
         @Override
@@ -212,27 +286,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    class OnNavigationItemSelectedListener
-            implements BottomNavigationView.OnNavigationItemSelectedListener {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_customers:
-                    setFragment(FIRST_PAGE_FRAGMENT);
-                    return true;
-                case R.id.navigation_orders:
-                    setFragment(ORDERS_FRAGMENT);
-                    return true;
-                case R.id.navigation_products:
-                    setFragment(PRODUCTS_FRAGMENT);
-                    return true;
-            }
-            return false;
-        }
-    }
-
-    class OnPageChangeListener implements ViewPager.OnPageChangeListener {
+    private class OnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -241,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public void onPageSelected(int position) {
-            setSelectedItemId(position);
+            setSelectedBottomNavigationItem(position);
         }
 
         @Override
