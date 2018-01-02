@@ -4,6 +4,6 @@ import java.util.List;
 
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
 
-public interface ResponseListener {
+public interface ItemsResponseCallback {
     void updateListItems(List<? extends ModelObject> list);
 }

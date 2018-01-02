@@ -10,16 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.coffee_team.newcoffeeapp.R;
 import ca.coffee_team.newcoffeeapp.adapter.RecyclerViewAdapter;
-import ca.coffee_team.newcoffeeapp.api.ResponseListener;
+import ca.coffee_team.newcoffeeapp.api.ItemsResponseCallback;
 import ca.coffee_team.newcoffeeapp.api.ServerAPIHelper;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
 
-public abstract class StandardListFragment extends StandardFragment implements ResponseListener {
+public abstract class StandardListFragment extends StandardFragment implements ItemsResponseCallback {
 
     protected OnListItemClickListener mOnListItemClickListener;
     protected ServerAPIHelper mServerAPIHelper;
