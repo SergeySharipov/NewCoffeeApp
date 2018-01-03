@@ -21,11 +21,11 @@ public class ServerAPIHelper implements ServerAPI {
     private ItemsResponseCallback mItemsResponseCallback;
     private ItemResponseCallback mItemResponseCallback;
 
-    public ServerAPIHelper(ItemsResponseCallback itemsResponseCallback) {
+    public void setItemsResponseCallback(ItemsResponseCallback itemsResponseCallback) {
         mItemsResponseCallback = itemsResponseCallback;
     }
 
-    public ServerAPIHelper(ItemResponseCallback itemResponseCallback) {
+    public void setItemResponseCallback(ItemResponseCallback itemResponseCallback) {
         mItemResponseCallback = itemResponseCallback;
     }
 
@@ -60,21 +60,40 @@ public class ServerAPIHelper implements ServerAPI {
     }
 
     @Override
-    public Call<Customer> getCustomer(@Path("id") String id) {
-        App.getApi().getCustomer(id).enqueue(new Callback<Customer>() {
+    public Call<List<Customer>> getCustomer(@Path("id") String id) {
+
+        App.getApi().getCustomer(id).enqueue(new Callback<List<Customer>>() {
             @Override
-            public void onResponse(@NonNull Call<Customer> call, @NonNull Response<Customer> response) {
+            public void onResponse(@NonNull Call<List<Customer>> call, @NonNull Response<List<Customer>> response) {
                 Log.e(LOG_NAME, response.message());
-                updateItem(response.body());
+                updateItem(response.body().get(0));
             }
 
             @Override
-            public void onFailure(@NonNull Call<Customer> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Customer>> call, @NonNull Throwable t) {
                 Log.e(LOG_NAME, t.getMessage());
             }
         });
         return null;
     }
+
+
+//    @Override
+//    public Call<Customer> getCustomer(@Path("id") String id) {
+//        App.getApi().getCustomer(id).enqueue(new Callback<Customer>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Customer> call, @NonNull Response<Customer> response) {
+//                Log.e(LOG_NAME, response.message());
+//                updateItem(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<Customer> call, @NonNull Throwable t) {
+//                Log.e(LOG_NAME, t.getMessage());
+//            }
+//        });
+//        return null;
+//    }
 
     @Override
     public Call<Customer> addCustomer(@Body Customer customer) {
@@ -158,17 +177,35 @@ public class ServerAPIHelper implements ServerAPI {
         return null;
     }
 
+//    @Override
+//    public Call<Order> getOrder(@Path("id") String id) {
+//        App.getApi().getOrder(id).enqueue(new Callback<Order>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
+//                Log.e(LOG_NAME, response.message());
+//                updateItem(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
+//                Log.e(LOG_NAME, t.getMessage());
+//            }
+//        });
+//        return null;
+//    }
+
     @Override
-    public Call<Order> getOrder(@Path("id") String id) {
-        App.getApi().getOrder(id).enqueue(new Callback<Order>() {
+    public Call<List<Order>> getOrder(@Path("id") String id) {
+
+        App.getApi().getOrder(id).enqueue(new Callback<List<Order>>() {
             @Override
-            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
+            public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {
                 Log.e(LOG_NAME, response.message());
-                updateItem(response.body());
+                updateItem(response.body().get(0));
             }
 
             @Override
-            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Order>> call, @NonNull Throwable t) {
                 Log.e(LOG_NAME, t.getMessage());
             }
         });
@@ -241,17 +278,35 @@ public class ServerAPIHelper implements ServerAPI {
         return null;
     }
 
+//    @Override
+//    public Call<Product> getProduct(@Path("id") String id) {
+//        App.getApi().getProduct(id).enqueue(new Callback<Product>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
+//                Log.e(LOG_NAME, response.message());
+//                updateItem(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<Product> call, @NonNull Throwable t) {
+//                Log.e(LOG_NAME, t.getMessage());
+//            }
+//        });
+//        return null;
+//    }
+
     @Override
-    public Call<Product> getProduct(@Path("id") String id) {
-        App.getApi().getProduct(id).enqueue(new Callback<Product>() {
+    public Call<List<Product>> getProduct(@Path("id") String id) {
+
+        App.getApi().getProduct(id).enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 Log.e(LOG_NAME, response.message());
-                updateItem(response.body());
+                updateItem(response.body().get(0));
             }
 
             @Override
-            public void onFailure(@NonNull Call<Product> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
                 Log.e(LOG_NAME, t.getMessage());
             }
         });

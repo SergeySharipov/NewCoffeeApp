@@ -12,13 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ca.coffee_team.newcoffeeapp.fragment.CustomerFragment;
 import ca.coffee_team.newcoffeeapp.fragment.CustomersFragment;
 import ca.coffee_team.newcoffeeapp.fragment.FragmentContainer;
 import ca.coffee_team.newcoffeeapp.fragment.OnListItemClickListener;
+import ca.coffee_team.newcoffeeapp.fragment.OrderFragment;
 import ca.coffee_team.newcoffeeapp.fragment.OrdersFragment;
+import ca.coffee_team.newcoffeeapp.fragment.ProductFragment;
 import ca.coffee_team.newcoffeeapp.fragment.ProductsFragment;
 import ca.coffee_team.newcoffeeapp.fragment.StandardFragment;
+import ca.coffee_team.newcoffeeapp.model.Customer;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
+import ca.coffee_team.newcoffeeapp.model.Order;
+import ca.coffee_team.newcoffeeapp.model.Product;
 import ca.coffee_team.newcoffeeapp.util.StackNavigationPageSelected;
 
 public class MainActivity extends AppCompatActivity implements
@@ -57,11 +63,11 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             mStackNavigationPageSelected.pushPage(FIRST_PAGE);
         }
-        if(mFragmentContainer1==null)
-        mFragmentContainer1 = FragmentContainer.newInstance(FIRST_PAGE);
-        if(mFragmentContainer2==null)
+        if (mFragmentContainer1 == null)
+            mFragmentContainer1 = FragmentContainer.newInstance(FIRST_PAGE);
+        if (mFragmentContainer2 == null)
             mFragmentContainer2 = FragmentContainer.newInstance(SECOND_PAGE);
-        if(mFragmentContainer3==null)
+        if (mFragmentContainer3 == null)
             mFragmentContainer3 = FragmentContainer.newInstance(THIRD_PAGE);
 
         initBottomNavigationView();
@@ -79,6 +85,43 @@ public class MainActivity extends AppCompatActivity implements
                 return new ProductsFragment();
         }
         return new CustomersFragment();
+    }
+
+    @Override
+    public String getFirstFragmentTitle(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                return CustomersFragment.TITLE;
+            case SECOND_PAGE:
+                return OrdersFragment.TITLE;
+            case THIRD_PAGE:
+                return ProductsFragment.TITLE;
+        }
+        return CustomersFragment.TITLE;
+    }
+
+    @Override
+    public void onListItemClick(ModelObject item) {
+        StandardFragment standardFragment = new ProductFragment();
+
+        if (item instanceof Customer)
+            standardFragment = CustomerFragment.newInstance(item.getId());
+        else if (item instanceof Order)
+            standardFragment = OrderFragment.newInstance(item.getId());
+        else if (item instanceof Product)
+            standardFragment = ProductFragment.newInstance(item.getId());
+
+        switch (getSelectedBottomNavigationItemPosition()) {
+            case FIRST_PAGE:
+                mFragmentContainer1.showNextFragment(standardFragment);
+                break;
+            case SECOND_PAGE:
+                mFragmentContainer2.showNextFragment(standardFragment);
+                break;
+            case THIRD_PAGE:
+                mFragmentContainer3.showNextFragment(standardFragment);
+                break;
+        }
     }
 
     @Override
@@ -242,21 +285,6 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case THIRD_PAGE:
                 setBackButtonStatus(mFragmentContainer3.isBackButtonStatus());
-                break;
-        }
-    }
-
-    @Override
-    public void onListItemClick(ModelObject item) {
-        switch (getSelectedBottomNavigationItemPosition()) {
-            case FIRST_PAGE:
-                mFragmentContainer1.showNextFragment();
-                break;
-            case SECOND_PAGE:
-                mFragmentContainer2.showNextFragment();
-                break;
-            case THIRD_PAGE:
-                mFragmentContainer3.showNextFragment();
                 break;
         }
     }

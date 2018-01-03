@@ -67,8 +67,8 @@ public class ProductsRecyclerViewAdapter extends
 
         void bind(Product item) {
             mItem = item;
-            mIdView.setText(mItem.getProductName());
-            mContentView.setText(mItem.getPrice() + "");
+            mIdView.setText("Product name: "+mItem.getProductName());
+            mContentView.setText("Price: "+mItem.getPrice() + "$");
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override

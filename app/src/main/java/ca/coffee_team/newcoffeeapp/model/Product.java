@@ -17,10 +17,10 @@ productSchema: new mongoose.Schema({
 */
 public class Product extends ModelObject {
 
-    @SerializedName("mProductName")
+    @SerializedName("productName")
     @Expose
     private String mProductName;
-    @SerializedName("mPrice")
+    @SerializedName("price")
     @Expose
     private double mPrice;
 

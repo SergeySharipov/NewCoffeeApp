@@ -21,7 +21,6 @@ import ca.coffee_team.newcoffeeapp.model.ModelObject;
 public abstract class StandardListFragment extends StandardFragment implements ItemsResponseCallback {
 
     protected OnListItemClickListener mOnListItemClickListener;
-    protected ServerAPIHelper mServerAPIHelper;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
@@ -31,7 +30,7 @@ public abstract class StandardListFragment extends StandardFragment implements I
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        mServerAPIHelper = new ServerAPIHelper(this);
+        mServerAPIHelper.setItemsResponseCallback(this);
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

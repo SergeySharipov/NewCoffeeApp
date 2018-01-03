@@ -12,7 +12,7 @@ import ca.coffee_team.newcoffeeapp.model.ModelObject;
 import ca.coffee_team.newcoffeeapp.model.Product;
 
 public class ProductsFragment extends StandardListFragment {
-    private static final String TITLE = "Products";
+    public static final String TITLE = "Products";
     private List<Product> mListItems;
 
     /**

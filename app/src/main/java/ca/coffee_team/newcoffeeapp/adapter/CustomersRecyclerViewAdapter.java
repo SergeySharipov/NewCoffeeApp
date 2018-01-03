@@ -71,8 +71,8 @@ public class CustomersRecyclerViewAdapter extends
 
         void bind(Customer item) {
             mItem = item;
-            mIdView.setText(mItem.getBusinessName());
-            mContentView.setText(mItem.getEmail());
+            mIdView.setText("Business name: "+mItem.getBusinessName());
+            mContentView.setText("Address: "+mItem.getAddress());
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override

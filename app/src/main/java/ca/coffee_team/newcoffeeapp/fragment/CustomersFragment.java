@@ -11,7 +11,7 @@ import ca.coffee_team.newcoffeeapp.model.Customer;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
 
 public class CustomersFragment extends StandardListFragment {
-    private static final String TITLE = "Customers";
+    public static final String TITLE = "Customers";
     private List<Customer> mListItems;
 
     /**

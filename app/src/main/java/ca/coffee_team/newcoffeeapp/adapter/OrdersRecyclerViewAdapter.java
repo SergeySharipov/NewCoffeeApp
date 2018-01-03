@@ -68,8 +68,8 @@ public class OrdersRecyclerViewAdapter extends
 
         void bind(Order item) {
             mItem = item;
-            mIdView.setText(mItem.getProduct());
-            mContentView.setText(mItem.getAmount() + "");
+            mIdView.setText("Date created: "+mItem.getDateCreated());
+            mContentView.setText("Amount: "+mItem.getAmount() + "");
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override

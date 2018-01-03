@@ -21,8 +21,11 @@ public interface ServerAPI {
     @GET("/customers")
     Call<List<Customer>> getCustomers();
 
-    @GET("/customer/{id}")
-    Call<Customer> getCustomer(@Path("id") String id);
+//    @GET("/customers/{id}")
+//    Call<Customer> getCustomer(@Path("id") String id);
+
+    @GET("/customers/{id}")
+    Call<List<Customer>> getCustomer(@Path("id") String id);
 
     @POST("/customer")
     Call<Customer> addCustomer(@Body Customer customer);
@@ -42,8 +45,11 @@ public interface ServerAPI {
     @GET("/customers/{customer_id}/orders")
     Call<List<Order>> getOrders(@Path("customer_id") String customerId);
 
-    @GET("/order/{id}")
-    Call<Order> getOrder(@Path("id") String id);
+//    @GET("/orders/{id}")
+//    Call<Order> getOrder(@Path("id") String id);
+
+    @GET("/orders/{id}")
+    Call<List<Order>> getOrder(@Path("id") String id);
 
     @POST("/order")
     Call<Order> addOrder(@Body Order order);
@@ -60,8 +66,11 @@ public interface ServerAPI {
     @GET("/products")
     Call<List<Product>> getProducts();
 
-    @GET("/product/{id}")
-    Call<Product> getProduct(@Path("id") String id);
+//    @GET("/products/{id}")
+//    Call<Product> getProduct(@Path("id") String id);
+
+    @GET("/products/{id}")
+    Call<List<Product>> getProduct(@Path("id") String id);
 
     @POST("/product")
     Call<Product> addProduct(@Body Product product);

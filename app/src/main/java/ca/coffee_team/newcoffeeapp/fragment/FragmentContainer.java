@@ -17,7 +17,6 @@ public class FragmentContainer extends Fragment {
     public static final String BACK_BUTTON_STATUS = "ca.coffee_team.newcoffeeapp.fragment.BACK_BUTTON_STATUS";
     public static final String PAGE = "ca.coffee_team.newcoffeeapp.fragment.PAGE";
     public static final String TITLE = "ca.coffee_team.newcoffeeapp.fragment.TITLE";
-    private static final String FIRST_FRAGMENT = "FIRST_FRAGMENT";
     private boolean mBackButtonStatus = false;
     private int mPage = 0;
     private OnFragmentContainerManageListener mListener;
@@ -71,16 +70,6 @@ public class FragmentContainer extends Fragment {
         outState.putBoolean(BACK_BUTTON_STATUS, mBackButtonStatus);
     }
 
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        super.onViewStateRestored(savedInstanceState);
-//        if (savedInstanceState != null) {
-//            mPage = savedInstanceState.getInt(PAGE, 0);
-//            mTitle = savedInstanceState.getString(TITLE, "");
-//            mBackButtonStatus = savedInstanceState.getBoolean(BACK_BUTTON_STATUS);
-//        }
-//    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -131,18 +120,17 @@ public class FragmentContainer extends Fragment {
 
     public void showFirstFragment() {
         setBackButtonStatus(false);
-        getChildFragmentManager().popBackStack(mListener.getFirstFragment(mPage).getTitle(),
+        getChildFragmentManager().popBackStack(mListener.getFirstFragmentTitle(mPage),
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
         initFirstFragment();
 
         mListener.updateActionBar();
     }
 
-    public void showNextFragment() {
+    public void showNextFragment(StandardFragment standardFragment) {
         setBackButtonStatus(true);
 
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        StandardFragment standardFragment = new CustomerFragment();
         mTitle = standardFragment.getTitle();
         fragmentTransaction.addToBackStack(mTitle);
         fragmentTransaction.replace(R.id.fragment_container, standardFragment, mTitle);
@@ -170,6 +158,8 @@ public class FragmentContainer extends Fragment {
 
     public interface OnFragmentContainerManageListener {
         StandardFragment getFirstFragment(int position);
+
+        String getFirstFragmentTitle(int position);
 
         void updateActionBar();
     }
