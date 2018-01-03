@@ -20,28 +20,4 @@ public abstract class StandardItemFragment extends StandardFragment implements I
         mServerAPIHelper.setItemResponseCallback(this);
     }
 
-    //  public OnFragmentResumeListener mResumeListener;
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentResumeListener) {
-//            mResumeListener = (OnFragmentResumeListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentResumeListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mResumeListener = null;
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if(mResumeListener!=null)
-//            mResumeListener.setActionBarTitle(getTitle());
-//    }
 }

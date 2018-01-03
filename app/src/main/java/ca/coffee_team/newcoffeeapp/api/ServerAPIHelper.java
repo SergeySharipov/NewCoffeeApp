@@ -279,8 +279,8 @@ public class ServerAPIHelper implements ServerAPI {
     }
 
 //    @Override
-//    public Call<Product> getProduct(@Path("id") String id) {
-//        App.getApi().getProduct(id).enqueue(new Callback<Product>() {
+//    public Call<Product> getProductId(@Path("id") String id) {
+//        App.getApi().getProductId(id).enqueue(new Callback<Product>() {
 //            @Override
 //            public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
 //                Log.e(LOG_NAME, response.message());

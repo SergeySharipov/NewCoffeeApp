@@ -57,7 +57,7 @@ public class Order extends ModelObject {
         mCustomerId = customerId;
     }
 
-    public String getProduct() {
+    public String getProductId() {
         return mProduct;
     }
 

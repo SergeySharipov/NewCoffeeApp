@@ -67,7 +67,7 @@ public interface ServerAPI {
     Call<List<Product>> getProducts();
 
 //    @GET("/products/{id}")
-//    Call<Product> getProduct(@Path("id") String id);
+//    Call<Product> getProductId(@Path("id") String id);
 
     @GET("/products/{id}")
     Call<List<Product>> getProduct(@Path("id") String id);

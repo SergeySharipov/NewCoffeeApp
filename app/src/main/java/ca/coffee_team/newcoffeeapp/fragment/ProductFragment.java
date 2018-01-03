@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ca.coffee_team.newcoffeeapp.R;
-import ca.coffee_team.newcoffeeapp.model.Customer;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
 import ca.coffee_team.newcoffeeapp.model.Product;
 
 public class ProductFragment extends StandardItemFragment {
     public static final String TITLE = "Product";
-    private TextView mIdView;
-    private TextView mContentView;
+    private TextView mProductName;
+    private TextView mPrice;
     private Product mItem;
     
     public ProductFragment() {} // Required empty public constructor
@@ -33,8 +32,8 @@ public class ProductFragment extends StandardItemFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
-        mIdView = view.findViewById(R.id.id);
-        mContentView = view.findViewById(R.id.content);
+        mProductName = view.findViewById(R.id.product_name);
+        mPrice = view.findViewById(R.id.price);
         return view;
     }
 
@@ -52,7 +51,7 @@ public class ProductFragment extends StandardItemFragment {
     @Override
     public void updateItem(ModelObject item) {
         mItem= (Product) item;
-        mIdView.setText("Product name: "+mItem.getProductName());
-        mContentView.setText("Price: "+mItem.getPrice() + "$");
+        mProductName.setText(mItem.getProductName());
+        mPrice.setText(mItem.getPrice()+"$");
     }
 }

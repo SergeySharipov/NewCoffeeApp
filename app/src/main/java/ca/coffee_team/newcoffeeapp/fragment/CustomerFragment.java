@@ -15,8 +15,11 @@ import ca.coffee_team.newcoffeeapp.model.ModelObject;
 
 public class CustomerFragment extends StandardItemFragment {
     public static final String TITLE = "Customer";
-    private TextView mIdView;
-    private TextView mContentView;
+    private TextView mBusinessName;
+    private TextView mAddress;
+    private TextView mTelephone;
+    private TextView mEmail;
+    private TextView mContactPerson;
     private Customer mItem;
 
     /**
@@ -38,8 +41,11 @@ public class CustomerFragment extends StandardItemFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customer, container, false);
-        mIdView = view.findViewById(R.id.id);
-        mContentView = view.findViewById(R.id.content);
+        mBusinessName = view.findViewById(R.id.business_name);
+        mAddress = view.findViewById(R.id.address);
+        mTelephone = view.findViewById(R.id.telephone);
+        mEmail = view.findViewById(R.id.email);
+        mContactPerson = view.findViewById(R.id.contact_person);
         return view;
     }
 
@@ -57,7 +63,10 @@ public class CustomerFragment extends StandardItemFragment {
     @Override
     public void updateItem(ModelObject item) {
         mItem= (Customer) item;
-        mIdView.setText("Business name: "+mItem.getBusinessName());
-        mContentView.setText("Address: "+mItem.getAddress());
+        mBusinessName.setText(mItem.getBusinessName());
+        mAddress.setText(mItem.getAddress());
+        mTelephone.setText(mItem.getTelephone());
+        mEmail.setText(mItem.getEmail());
+        mContactPerson.setText(mItem.getContactPerson());
     }
 }

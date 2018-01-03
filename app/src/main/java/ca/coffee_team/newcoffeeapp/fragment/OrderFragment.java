@@ -12,12 +12,23 @@ import ca.coffee_team.newcoffeeapp.R;
 import ca.coffee_team.newcoffeeapp.model.Customer;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
 import ca.coffee_team.newcoffeeapp.model.Order;
+import ca.coffee_team.newcoffeeapp.model.Product;
 
 public class OrderFragment extends StandardItemFragment {
     public static final String TITLE = "Order";
-    private TextView mIdView;
-    private TextView mContentView;
+    private TextView mAmount;
+    private TextView mIsPaid;
+    private TextView mDateCreated;
     private Order mItem;
+
+    private TextView mProductName;
+    private TextView mPrice;
+
+    private TextView mBusinessName;
+    private TextView mAddress;
+    private TextView mTelephone;
+    private TextView mEmail;
+    private TextView mContactPerson;
 
     public OrderFragment() {} // Required empty public constructor
 
@@ -33,8 +44,18 @@ public class OrderFragment extends StandardItemFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
-        mIdView = view.findViewById(R.id.id);
-        mContentView = view.findViewById(R.id.content);
+        mAmount = view.findViewById(R.id.amount);
+        mIsPaid = view.findViewById(R.id.isPaid);
+        mDateCreated = view.findViewById(R.id.data_created);
+
+        mProductName = view.findViewById(R.id.product_name);
+        mPrice = view.findViewById(R.id.price);
+
+        mBusinessName = view.findViewById(R.id.business_name);
+        mAddress = view.findViewById(R.id.address);
+        mTelephone = view.findViewById(R.id.telephone);
+        mEmail = view.findViewById(R.id.email);
+        mContactPerson = view.findViewById(R.id.contact_person);
         return view;
     }
 
@@ -51,8 +72,26 @@ public class OrderFragment extends StandardItemFragment {
 
     @Override
     public void updateItem(ModelObject item) {
-        mItem= (Order) item;
-        mIdView.setText("Date created: "+mItem.getDateCreated());
-        mContentView.setText("Amount: "+mItem.getAmount() + "");
+        if(item instanceof Order) {
+            mItem = (Order) item;
+            mAmount.setText(mItem.getAmount() + "");
+            mIsPaid.setText(mItem.isPaid() + "");
+            mDateCreated.setText(mItem.getDateCreated());
+
+            mServerAPIHelper.getCustomer(mItem.getCustomerId());
+        } else if(item instanceof Customer) {
+            Customer customer = (Customer) item;
+            mBusinessName.setText(customer.getBusinessName());
+            mAddress.setText(customer.getAddress());
+            mTelephone.setText(customer.getTelephone());
+            mEmail.setText(customer.getEmail());
+            mContactPerson.setText(customer.getContactPerson());
+
+            mServerAPIHelper.getProduct(mItem.getProductId());
+        } else if(item instanceof Product) {
+            Product product = (Product) item;
+            mProductName.setText(product.getProductName());
+            mPrice.setText(product.getPrice()+"$");
+        }
     }
 }
