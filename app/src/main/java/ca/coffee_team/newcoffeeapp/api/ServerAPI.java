@@ -27,13 +27,13 @@ public interface ServerAPI {
     @GET("/customers/{id}")
     Call<List<Customer>> getCustomer(@Path("id") String id);
 
-    @POST("/customer")
+    @POST("/customers")
     Call<Customer> addCustomer(@Body Customer customer);
 
-    @PUT("/customer/{id}")
+    @PUT("/customers/{id}")
     Call<Customer> updateCustomer(@Path("id") String id, @Body Customer customer);
 
-    @DELETE("/customer/{id}")
+    @DELETE("/customers/{id}")
     Call<Customer> deleteCustomer(@Path("id") String id);
 
     /**
@@ -51,13 +51,13 @@ public interface ServerAPI {
     @GET("/orders/{id}")
     Call<List<Order>> getOrder(@Path("id") String id);
 
-    @POST("/order")
+    @POST("/orders")
     Call<Order> addOrder(@Body Order order);
 
-    @PUT("/order/{id}")
+    @PUT("/orders/{id}")
     Call<Order> updateOrder(@Path("id") String id, @Body Order order);
 
-    @DELETE("/order/{id}")
+    @DELETE("/orders/{id}")
     Call<Order> deleteOrder(@Path("id") String id);
 
     /**
@@ -72,12 +72,12 @@ public interface ServerAPI {
     @GET("/products/{id}")
     Call<List<Product>> getProduct(@Path("id") String id);
 
-    @POST("/product")
+    @POST("/products")
     Call<Product> addProduct(@Body Product product);
 
-    @PUT("/product/{id}")
+    @PUT("/products/{id}")
     Call<Product> updateProduct(@Path("id") String id, @Body Product product);
 
-    @DELETE("/product/{id}")
+    @DELETE("/products/{id}")
     Call<Product> deleteProduct(@Path("id") String id);
 }
