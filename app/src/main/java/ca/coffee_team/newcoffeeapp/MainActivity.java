@@ -10,8 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import ca.coffee_team.newcoffeeapp.dialog.AddEditCustomerDialog;
+import ca.coffee_team.newcoffeeapp.dialog.AddEditOrderDialog;
+import ca.coffee_team.newcoffeeapp.dialog.AddEditProductDialog;
 import ca.coffee_team.newcoffeeapp.fragment.CustomerFragment;
 import ca.coffee_team.newcoffeeapp.fragment.CustomersFragment;
 import ca.coffee_team.newcoffeeapp.fragment.FragmentContainer;
@@ -72,6 +76,42 @@ public class MainActivity extends AppCompatActivity implements
 
         initBottomNavigationView();
         initViewPager();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_action_bar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.add_item:
+                getAddEditDialog(getSelectedBottomNavigationItemPosition());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void getAddEditDialog(int position) {
+        switch (position) {
+            case FIRST_PAGE:
+                AddEditCustomerDialog addEditCustomerDialog = new AddEditCustomerDialog();
+                addEditCustomerDialog.show(getSupportFragmentManager(), "AddEditCustomerDialog");
+                break;
+            case SECOND_PAGE:
+                AddEditOrderDialog addEditOrderDialog = new AddEditOrderDialog();
+                addEditOrderDialog.show(getSupportFragmentManager(), "AddEditOrderDialog");
+                break;
+            case THIRD_PAGE:
+                AddEditProductDialog addEditProductDialog = new AddEditProductDialog();
+                addEditProductDialog.show(getSupportFragmentManager(), "AddEditProductDialog");
+                break;
+        }
     }
 
     @Override

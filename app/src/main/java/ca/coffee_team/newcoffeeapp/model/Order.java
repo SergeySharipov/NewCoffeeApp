@@ -33,6 +33,10 @@ public class Order extends ModelObject {
     @Expose
     private boolean mIsPaid;
 
+    public Order(){
+
+    }
+
     public Order(String customerId, String product, double amount, boolean isPaid) {
         mCustomerId = customerId;
         mProduct = product;

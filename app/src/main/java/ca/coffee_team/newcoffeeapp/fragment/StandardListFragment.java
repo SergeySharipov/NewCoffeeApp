@@ -50,10 +50,6 @@ public abstract class StandardListFragment extends StandardFragment implements I
     public void setAdapter(RecyclerViewAdapter adapter) {
         mAdapter = adapter;
     }
-
-    public void setRefreshing(boolean refreshing) {
-        mSwipeRefreshLayout.setRefreshing(refreshing);
-    }
     
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

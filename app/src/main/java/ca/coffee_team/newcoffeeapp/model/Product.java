@@ -24,6 +24,10 @@ public class Product extends ModelObject {
     @Expose
     private double mPrice;
 
+    public Product(){
+
+    }
+
     public String getProductName() {
         return mProductName;
     }
