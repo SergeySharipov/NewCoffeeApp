@@ -1,5 +1,6 @@
 package ca.coffee_team.newcoffeeapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ public class CustomerFragment extends StandardItemFragment {
     private TextView mEmail;
     private TextView mContactPerson;
     private Customer mItem;
+    private OnItemClickListener mOnItemClickListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,12 +43,25 @@ public class CustomerFragment extends StandardItemFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customer, container, false);
+
+        view.findViewById(R.id.show_orders_but).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemClickListener.onItemClick(mItem);
+            }
+        });
+
         mBusinessName = view.findViewById(R.id.business_name);
         mAddress = view.findViewById(R.id.address);
         mTelephone = view.findViewById(R.id.telephone);
         mEmail = view.findViewById(R.id.email);
         mContactPerson = view.findViewById(R.id.contact_person);
         return view;
+    }
+
+    @Override
+    void updateItem() {
+        mServerAPIHelper.getCustomer(getObjectId());
     }
 
     @Override
@@ -68,5 +83,24 @@ public class CustomerFragment extends StandardItemFragment {
         mTelephone.setText(mItem.getTelephone());
         mEmail.setText(mItem.getEmail());
         mContactPerson.setText(mItem.getContactPerson());
+
+        itemUpdated();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnItemClickListener) {
+            mOnItemClickListener = (OnItemClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnItemClickListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnItemClickListener = null;
     }
 }

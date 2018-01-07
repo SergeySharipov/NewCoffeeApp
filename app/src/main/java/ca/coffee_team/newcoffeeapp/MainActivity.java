@@ -19,6 +19,7 @@ import ca.coffee_team.newcoffeeapp.dialog.AddEditProductDialog;
 import ca.coffee_team.newcoffeeapp.fragment.CustomerFragment;
 import ca.coffee_team.newcoffeeapp.fragment.CustomersFragment;
 import ca.coffee_team.newcoffeeapp.fragment.FragmentContainer;
+import ca.coffee_team.newcoffeeapp.fragment.OnItemClickListener;
 import ca.coffee_team.newcoffeeapp.fragment.OnListItemClickListener;
 import ca.coffee_team.newcoffeeapp.fragment.OrderFragment;
 import ca.coffee_team.newcoffeeapp.fragment.OrdersFragment;
@@ -34,7 +35,8 @@ import ca.coffee_team.newcoffeeapp.util.StackNavigationPageSelected;
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         FragmentContainer.OnFragmentContainerManageListener,
-        OnListItemClickListener, BottomNavigationView.OnNavigationItemReselectedListener {
+        OnListItemClickListener, BottomNavigationView.OnNavigationItemReselectedListener,
+        OnItemClickListener{
 
     private static final int FIRST_PAGE = 0;
     private static final int SECOND_PAGE = 1;
@@ -87,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.add_item:
                 getAddEditDialog(getSelectedBottomNavigationItemPosition());
@@ -111,6 +112,21 @@ public class MainActivity extends AppCompatActivity implements
                 AddEditProductDialog addEditProductDialog = new AddEditProductDialog();
                 addEditProductDialog.show(getSupportFragmentManager(), "AddEditProductDialog");
                 break;
+        }
+    }
+
+    @Override
+    public void onItemClick(ModelObject item) {
+        if (item instanceof Customer) {
+            StandardFragment standardFragment;
+
+            standardFragment = OrdersFragment.newInstance(item.getId());
+
+            switch (getSelectedBottomNavigationItemPosition()) {
+                case FIRST_PAGE:
+                    mFragmentContainer1.showNextFragment(standardFragment);
+                    break;
+            }
         }
     }
 

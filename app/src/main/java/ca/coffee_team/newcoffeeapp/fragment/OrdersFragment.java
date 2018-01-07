@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import ca.coffee_team.newcoffeeapp.adapter.OrdersRecyclerViewAdapter;
@@ -14,7 +13,7 @@ import ca.coffee_team.newcoffeeapp.model.Order;
 public class OrdersFragment extends StandardListFragment {
     public static final String TITLE = "Orders";
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
-    private int mCustomerId;
+    private String mCustomerId;
     private List<Order> mListItems;
 
     /**
@@ -24,11 +23,10 @@ public class OrdersFragment extends StandardListFragment {
     public OrdersFragment() {
     }
 
-    @SuppressWarnings("unused")
-    public static OrdersFragment newInstance(int columnCount) {
+    public static OrdersFragment newInstance(String customerId) {
         OrdersFragment fragment = new OrdersFragment();
         Bundle args = new Bundle();
-        args.putInt(CUSTOMER_ID, columnCount);
+        args.putString(CUSTOMER_ID, customerId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,14 +36,17 @@ public class OrdersFragment extends StandardListFragment {
         super.onCreate(savedInstanceState);
         mListItems = new ArrayList<>();
         if (getArguments() != null) {
-            mCustomerId = getArguments().getInt(CUSTOMER_ID);
+            mCustomerId = getArguments().getString(CUSTOMER_ID);
         }
         setAdapter(new OrdersRecyclerViewAdapter(mListItems, mOnListItemClickListener));
     }
 
     @Override
     void updateListItems() {
-        mServerAPIHelper.getOrders();
+        if (mCustomerId != null)
+            mServerAPIHelper.getOrders(mCustomerId);
+        else
+            mServerAPIHelper.getOrders();
     }
 
     @Override
@@ -59,9 +60,9 @@ public class OrdersFragment extends StandardListFragment {
     }
 
     @Override
-    @SuppressWarnings (value="unchecked")
+    @SuppressWarnings(value = "unchecked")
     void swapListItems(List<? extends ModelObject> list) {
-        if(!list.isEmpty()&&list.get(0) instanceof Order) {
+        if (!list.isEmpty() && list.get(0) instanceof Order) {
             mListItems.clear();
             mListItems.addAll((List<? extends Order>) list);
         }

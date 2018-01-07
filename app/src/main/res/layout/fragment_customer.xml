@@ -8,16 +8,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <include layout="@layout/content_fragment_customer"/>
+            <include layout="@layout/content_fragment_customer" />
 
-        </FrameLayout>
+            <Button
+                android:id="@+id/show_orders_but"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Show orders" />
+
+        </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

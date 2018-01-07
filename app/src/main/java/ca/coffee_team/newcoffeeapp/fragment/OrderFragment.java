@@ -60,6 +60,11 @@ public class OrderFragment extends StandardItemFragment {
     }
 
     @Override
+    void updateItem() {
+        mServerAPIHelper.getOrder(getObjectId());
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mServerAPIHelper.getOrder(getObjectId());
@@ -93,5 +98,7 @@ public class OrderFragment extends StandardItemFragment {
             mProductName.setText(product.getProductName());
             mPrice.setText(product.getPrice()+"$");
         }
+
+        itemUpdated();
     }
 }

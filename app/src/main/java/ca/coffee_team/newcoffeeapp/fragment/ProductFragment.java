@@ -38,6 +38,11 @@ public class ProductFragment extends StandardItemFragment {
     }
 
     @Override
+    void updateItem() {
+        mServerAPIHelper.getProduct(getObjectId());
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mServerAPIHelper.getProduct(getObjectId());
@@ -53,5 +58,7 @@ public class ProductFragment extends StandardItemFragment {
         mItem= (Product) item;
         mProductName.setText(mItem.getProductName());
         mPrice.setText(mItem.getPrice()+"$");
+
+        itemUpdated();
     }
 }
