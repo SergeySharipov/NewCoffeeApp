@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements
                     AddEditCustomerDialog addEditCustomerDialog = new AddEditCustomerDialog();
                     addEditCustomerDialog.show(getSupportFragmentManager(), "AddEditCustomerDialog");
                 }else if (id != null) {
-                    AddEditOrderDialog addEditOrderDialog = AddEditOrderDialog.newInstance(id);
+                    AddEditOrderDialog addEditOrderDialog = AddEditOrderDialog.newInstanceFor(id);
                     addEditOrderDialog.show(getSupportFragmentManager(), "AddEditOrderDialog");
                 }
                 break;

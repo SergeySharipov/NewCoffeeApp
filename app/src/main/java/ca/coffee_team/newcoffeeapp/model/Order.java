@@ -65,7 +65,7 @@ public class Order extends ModelObject {
         return mProduct;
     }
 
-    public void setProduct(String product) {
+    public void setProductId(String product) {
         mProduct = product;
     }
 
