@@ -58,21 +58,26 @@ public class OrdersRecyclerViewAdapter extends
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
-        private final TextView mIdView;
-        private final TextView mContentView;
+        private final TextView mAmount;
+        private final TextView mIsPaid;
+        private final TextView mDateCreated;
         private Order mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = view.findViewById(R.id.id);
-            mContentView = view.findViewById(R.id.content);
+
+            mAmount = view.findViewById(R.id.amount);
+            mIsPaid = view.findViewById(R.id.isPaid);
+            mDateCreated = view.findViewById(R.id.data_created);
         }
 
         void bind(Order item) {
             mItem = item;
-            mIdView.setText("Date created: "+mItem.getDateCreated());
-            mContentView.setText("Amount: "+mItem.getAmount() + "");
+
+            mAmount.setText(mItem.getAmount()+"kg");
+            mIsPaid.setText(String.valueOf(mItem.isPaid()));
+            mDateCreated.setText(mItem.getDateCreated());
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override

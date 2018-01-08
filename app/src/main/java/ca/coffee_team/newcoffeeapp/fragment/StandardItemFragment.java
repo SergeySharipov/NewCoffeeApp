@@ -13,7 +13,8 @@ import android.widget.Toast;
 import ca.coffee_team.newcoffeeapp.R;
 import ca.coffee_team.newcoffeeapp.api.ItemResponseCallback;
 
-public abstract class StandardItemFragment extends StandardFragment implements ItemResponseCallback {
+public abstract class StandardItemFragment extends StandardFragment
+        implements ItemResponseCallback {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     protected OnItemClickListener mOnItemClickListener;
 

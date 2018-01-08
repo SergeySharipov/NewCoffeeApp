@@ -61,21 +61,32 @@ public class CustomersRecyclerViewAdapter extends
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
-        private final TextView mIdView;
-        private final TextView mContentView;
+        private final TextView mBusinessName;
+        private final TextView mAddress;
+        private final TextView mTelephone;
+        private final TextView mEmail;
+        private final TextView mContactPerson;
         private Customer mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = view.findViewById(R.id.id);
-            mContentView = view.findViewById(R.id.content);
+
+            mBusinessName = view.findViewById(R.id.business_name);
+            mAddress = view.findViewById(R.id.address);
+            mTelephone = view.findViewById(R.id.telephone);
+            mEmail = view.findViewById(R.id.email);
+            mContactPerson = view.findViewById(R.id.contact_person);
         }
 
         void bind(Customer item) {
             mItem = item;
-            mIdView.setText("Business name: "+mItem.getBusinessName());
-            mContentView.setText("Address: "+mItem.getAddress());
+
+            mBusinessName.setText(mItem.getBusinessName());
+            mAddress.setText(mItem.getAddress());
+            mTelephone.setText(mItem.getTelephone());
+            mEmail.setText(mItem.getEmail());
+            mContactPerson.setText(mItem.getContactPerson());
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override

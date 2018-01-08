@@ -55,6 +55,11 @@ public abstract class StandardListFragment extends StandardFragment implements I
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView.setAdapter((RecyclerView.Adapter) mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         updateListItems();
     }
 

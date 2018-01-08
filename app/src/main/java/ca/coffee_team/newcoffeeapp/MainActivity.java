@@ -1,5 +1,6 @@
 package ca.coffee_team.newcoffeeapp;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (mFragmentContainer1.getBackStackCount() <= 2) {
                     AddEditCustomerDialog addEditCustomerDialog = new AddEditCustomerDialog();
                     addEditCustomerDialog.show(getSupportFragmentManager(), "AddEditCustomerDialog");
-                }else if (id != null) {
+                } else if (id != null) {
                     AddEditOrderDialog addEditOrderDialog = AddEditOrderDialog.newInstanceFor(id);
                     addEditOrderDialog.show(getSupportFragmentManager(), "AddEditOrderDialog");
                 }

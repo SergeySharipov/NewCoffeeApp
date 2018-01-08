@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TableRow>
+    <TableRow android:layout_margin="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="amount" />
+            android:text="Amount:" />
 
         <TextView
             android:id="@+id/amount"
@@ -19,12 +19,12 @@
             android:textAppearance="?attr/textAppearanceListItemSmall" />
     </TableRow>
 
-    <TableRow>
+    <TableRow android:layout_margin="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="isPaid:" />
+            android:text="Is paid:" />
 
         <TextView
             android:id="@+id/isPaid"
@@ -35,7 +35,7 @@
             android:textAppearance="?attr/textAppearanceListItemSmall" />
     </TableRow>
 
-    <TableRow>
+    <TableRow android:layout_margin="4dp">
 
         <TextView
             android:layout_width="wrap_content"

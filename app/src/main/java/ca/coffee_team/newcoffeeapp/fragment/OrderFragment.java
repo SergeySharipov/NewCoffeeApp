@@ -92,8 +92,8 @@ public class OrderFragment extends StandardItemFragment {
     public void updateItem(ModelObject item) {
         if(item instanceof Order) {
             mItem = (Order) item;
-            mAmount.setText(mItem.getAmount() + "");
-            mIsPaid.setText(mItem.isPaid() + "");
+            mAmount.setText(mItem.getAmount()+"kg");
+            mIsPaid.setText(String.valueOf(mItem.isPaid()));
             mDateCreated.setText(mItem.getDateCreated());
 
             mServerAPIHelper.getCustomer(mItem.getCustomerId());

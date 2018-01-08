@@ -57,21 +57,23 @@ public class ProductsRecyclerViewAdapter extends
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
-        private final TextView mIdView;
-        private final TextView mContentView;
+        private final TextView mProductName;
+        private final TextView mPrice;
         private Product mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = view.findViewById(R.id.id);
-            mContentView = view.findViewById(R.id.content);
+
+            mProductName = view.findViewById(R.id.product_name);
+            mPrice = view.findViewById(R.id.price);
         }
 
         void bind(Product item) {
             mItem = item;
-            mIdView.setText("Product name: "+mItem.getProductName());
-            mContentView.setText("Price: "+mItem.getPrice() + "$");
+
+            mProductName.setText(mItem.getProductName());
+            mPrice.setText(mItem.getPrice()+"$");
 
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
