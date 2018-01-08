@@ -30,18 +30,34 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
     private EditText mAmount;
     private EditText mIsPaid;
     private Order mItem;
-    private String customerId;
-    private String orderId;
+    private String mCustomerId;
+    private String mOrderId;
     private ServerAPIHelper mServerAPIHelper;
     private List<Customer> mListCustomers;
+
+    public static AddEditOrderDialog newInstance(String orderId) {
+        AddEditOrderDialog addEditOrderDialog = new AddEditOrderDialog();
+        Bundle args = new Bundle();
+        args.putString(ORDER_ID, orderId);
+        addEditOrderDialog.setArguments(args);
+        return addEditOrderDialog;
+    }
+
+    public static AddEditOrderDialog newInstanceFor(String customerId) {
+        AddEditOrderDialog addEditOrderDialog = new AddEditOrderDialog();
+        Bundle args = new Bundle();
+        args.putString(CUSTOMER_ID, customerId);
+        addEditOrderDialog.setArguments(args);
+        return addEditOrderDialog;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            customerId = bundle.getString(CUSTOMER_ID);
-            orderId = bundle.getString(ORDER_ID);
+            mCustomerId = bundle.getString(CUSTOMER_ID);
+            mOrderId = bundle.getString(ORDER_ID);
         }
         mServerAPIHelper = new ServerAPIHelper();
         mServerAPIHelper.setItemResponseCallback(this);
@@ -70,8 +86,8 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
 
         mServerAPIHelper.getCustomers();
 
-        if (orderId != null)
-            mServerAPIHelper.getOrders(orderId);
+        if (mOrderId != null)
+            mServerAPIHelper.getOrder(mOrderId);
     }
 
     @Override
@@ -82,7 +98,13 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
                     mItem.setAmount(Double.parseDouble(mAmount.getText().toString()));
                     mItem.setPaid(Boolean.parseBoolean(mIsPaid.getText().toString()));
 
-                    mServerAPIHelper.addOrder(mItem);
+                    if(mItem.getId()!=null) {
+                        mServerAPIHelper.updateOrder(mItem.getId(), mItem);
+                        Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mServerAPIHelper.addOrder(mItem);
+                        Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -112,7 +134,7 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
             mAmount.setText(mItem.getAmount() + "");
             mIsPaid.setText(mItem.isPaid() + "");
 
-            //todo   if(customerId!=null)
+            //todo   if(mCustomerId!=null)
 
         }
     }

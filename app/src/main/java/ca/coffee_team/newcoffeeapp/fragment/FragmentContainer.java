@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import ca.coffee_team.newcoffeeapp.R;
 
@@ -17,10 +16,12 @@ public class FragmentContainer extends Fragment {
     public static final String BACK_BUTTON_STATUS = "ca.coffee_team.newcoffeeapp.fragment.BACK_BUTTON_STATUS";
     public static final String PAGE = "ca.coffee_team.newcoffeeapp.fragment.PAGE";
     public static final String TITLE = "ca.coffee_team.newcoffeeapp.fragment.TITLE";
+    public static final String OBJECT_ID = "FragmentContainer.OBJECT_ID";
     private boolean mBackButtonStatus = false;
     private int mPage = 0;
     private OnFragmentContainerManageListener mListener;
     private String mTitle = "null";
+    private String mObjectId = "";
 
     public static FragmentContainer newInstance(int page) {
         FragmentContainer fragment = new FragmentContainer();
@@ -28,6 +29,10 @@ public class FragmentContainer extends Fragment {
         args.putInt(PAGE, page);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public boolean isEditStatus() {
+        return !mTitle.endsWith("s");
     }
 
     public boolean isBackButtonStatus() {
@@ -42,15 +47,21 @@ public class FragmentContainer extends Fragment {
         return mTitle;
     }
 
+    public String getObjectId() {
+        return mObjectId;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mPage = getArguments().getInt(PAGE, 0);
         }
         if (savedInstanceState != null) {
             mPage = savedInstanceState.getInt(PAGE, 0);
             mTitle = savedInstanceState.getString(TITLE, "");
+            mObjectId = savedInstanceState.getString(OBJECT_ID, "");
             mBackButtonStatus = savedInstanceState.getBoolean(BACK_BUTTON_STATUS, false);
         }
     }
@@ -67,6 +78,7 @@ public class FragmentContainer extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putInt(PAGE, mPage);
         outState.putString(TITLE, mTitle);
+        outState.putString(OBJECT_ID, mObjectId);
         outState.putBoolean(BACK_BUTTON_STATUS, mBackButtonStatus);
     }
 
@@ -90,7 +102,7 @@ public class FragmentContainer extends Fragment {
         mListener.updateActionBar();
     }
 
-    protected int getBackStackCount() {
+    public int getBackStackCount() {
         return getChildFragmentManager().getBackStackEntryCount();
     }
 
@@ -104,22 +116,34 @@ public class FragmentContainer extends Fragment {
         else return mTitle;
     }
 
+    String getLastBackStackFragmentObjectId() {
+        if (getBackStackCount() > 1) {
+            CharSequence objectId = getChildFragmentManager().getBackStackEntryAt(getBackStackCount() - 2)
+                    .getBreadCrumbTitle();
+            if (objectId != null)
+                return objectId.toString();
+        }
+        return null;
+    }
+
     public void showPreviousFragment() {
         if (getBackStackCount() > 1) {
             if (getBackStackCount() == 2)
                 setBackButtonStatus(false);
 
             mTitle = getLastBackStackFragmentTitle();
-            Toast.makeText(getContext(), mTitle, Toast.LENGTH_SHORT).show();
+            mObjectId = getLastBackStackFragmentObjectId();
             getChildFragmentManager().popBackStack();
         } else {
             setBackButtonStatus(false);
         }
+
         mListener.updateActionBar();
     }
 
     public void showFirstFragment() {
         setBackButtonStatus(false);
+
         getChildFragmentManager().popBackStack(mListener.getFirstFragmentTitle(mPage),
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
         initFirstFragment();
@@ -127,12 +151,14 @@ public class FragmentContainer extends Fragment {
         mListener.updateActionBar();
     }
 
-    public void showNextFragment(StandardFragment standardFragment) {
+    public void showNextFragment(StandardFragment standardFragment,String objectId) {
         setBackButtonStatus(true);
 
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         mTitle = standardFragment.getTitle();
+        mObjectId = objectId;
         fragmentTransaction.addToBackStack(mTitle);
+        fragmentTransaction.setBreadCrumbTitle(mObjectId);
         fragmentTransaction.replace(R.id.fragment_container, standardFragment, mTitle);
         fragmentTransaction.commit();
 

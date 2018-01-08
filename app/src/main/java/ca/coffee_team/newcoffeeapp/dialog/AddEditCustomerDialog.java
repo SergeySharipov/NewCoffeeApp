@@ -28,15 +28,23 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
     private EditText mEmail;
     private EditText mContactPerson;
     private Customer mItem;
-    private String customerId;
+    private String mCustomerId;
     private ServerAPIHelper mServerAPIHelper;
+
+    public static AddEditCustomerDialog newInstance(String customerId) {
+        AddEditCustomerDialog addEditCustomerDialog = new AddEditCustomerDialog();
+        Bundle args = new Bundle();
+        args.putString(CUSTOMER_ID, customerId);
+        addEditCustomerDialog.setArguments(args);
+        return addEditCustomerDialog;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            customerId = bundle.getString(CUSTOMER_ID);
+            mCustomerId = bundle.getString(CUSTOMER_ID);
         }
         mServerAPIHelper = new ServerAPIHelper();
         mServerAPIHelper.setItemResponseCallback(this);
@@ -65,8 +73,8 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (customerId != null)
-            mServerAPIHelper.getCustomer(customerId);
+        if (mCustomerId != null)
+            mServerAPIHelper.getCustomer(mCustomerId);
     }
 
     @Override
@@ -80,7 +88,13 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
                     mItem.setEmail(mEmail.getText().toString());
                     mItem.setContactPerson(mContactPerson.getText().toString());
 
-                    mServerAPIHelper.addCustomer(mItem);
+                    if(mItem.getId()!=null) {
+                        mServerAPIHelper.updateCustomer(mItem.getId(), mItem);
+                        Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mServerAPIHelper.addCustomer(mItem);
+                        Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }

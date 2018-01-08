@@ -20,10 +20,6 @@ public abstract class StandardFragment extends Fragment {
         return mObjectId;
     }
 
-    public void setObjectId(String id) {
-        mObjectId = id;
-    }
-
     public abstract String getTitle();
 
     @Override

@@ -25,15 +25,23 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
     private EditText mProductName;
     private EditText mPrice;
     private Product mItem;
-    private String productId;
+    private String mProductId;
     private ServerAPIHelper mServerAPIHelper;
+
+    public static AddEditProductDialog newInstance(String productId) {
+        AddEditProductDialog addEditProductDialog = new AddEditProductDialog();
+        Bundle args = new Bundle();
+        args.putString(PRODUCT_ID, productId);
+        addEditProductDialog.setArguments(args);
+        return addEditProductDialog;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if(bundle!=null){
-            productId = bundle.getString(PRODUCT_ID);
+            mProductId = bundle.getString(PRODUCT_ID);
         }
         mServerAPIHelper = new ServerAPIHelper();
         mServerAPIHelper.setItemResponseCallback(this);
@@ -59,8 +67,8 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(productId != null)
-            mServerAPIHelper.getProduct(productId);
+        if(mProductId != null)
+            mServerAPIHelper.getProduct(mProductId);
     }
 
     @Override
@@ -71,7 +79,13 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
                     mItem.setProductName(mProductName.getText().toString());
                     mItem.setPrice(Double.parseDouble(mPrice.getText().toString()));
 
-                    mServerAPIHelper.addProduct(mItem);
+                    if(mItem.getId()!=null) {
+                        mServerAPIHelper.updateProduct(mItem.getId(), mItem);
+                        Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mServerAPIHelper.addProduct(mItem);
+                        Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }

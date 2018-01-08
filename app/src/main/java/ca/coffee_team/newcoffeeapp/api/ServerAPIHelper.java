@@ -29,13 +29,13 @@ public class ServerAPIHelper implements ServerAPI {
         mItemResponseCallback = itemResponseCallback;
     }
 
-    private void updateItem(ModelObject item){
+    private void updateItem(ModelObject item) {
         if (mItemResponseCallback != null) {
             mItemResponseCallback.updateItem(item);
         }
     }
 
-    private void updateListItems(List<? extends ModelObject> list){
+    private void updateListItems(List<? extends ModelObject> list) {
         if (mItemsResponseCallback != null) {
             mItemsResponseCallback.updateListItems(list);
         }
@@ -66,7 +66,9 @@ public class ServerAPIHelper implements ServerAPI {
             @Override
             public void onResponse(@NonNull Call<List<Customer>> call, @NonNull Response<List<Customer>> response) {
                 Log.e(LOG_NAME, response.message());
-                updateItem(response.body().get(0));
+                List<Customer> list = response.body();
+                if (list != null && list.size() > 0)
+                    updateItem(list.get(0));
             }
 
             @Override
@@ -201,7 +203,9 @@ public class ServerAPIHelper implements ServerAPI {
             @Override
             public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {
                 Log.e(LOG_NAME, response.message());
-                updateItem(response.body().get(0));
+                List<Order> list = response.body();
+                if (list != null && list.size() > 0)
+                    updateItem(list.get(0));
             }
 
             @Override
@@ -302,7 +306,9 @@ public class ServerAPIHelper implements ServerAPI {
             @Override
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 Log.e(LOG_NAME, response.message());
-                updateItem(response.body().get(0));
+                List<Product> list = response.body();
+                if (list != null && list.size() > 0)
+                    updateItem(list.get(0));
             }
 
             @Override
