@@ -53,6 +53,9 @@ public class CustomersRecyclerViewAdapter extends
             mValues = (List<Customer>) items;
             Log.e("omg", "swap");
             notifyDataSetChanged();
+        }else {
+            mValues.clear();
+            notifyDataSetChanged();
         }
     }
 

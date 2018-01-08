@@ -50,6 +50,7 @@ public class ProductsFragment extends StandardListFragment {
         if(!list.isEmpty()&&list.get(0) instanceof Product) {
             mListItems.clear();
             mListItems.addAll((List<? extends Product>) list);
-        }
+        }else
+            mListItems.clear();
     }
 }

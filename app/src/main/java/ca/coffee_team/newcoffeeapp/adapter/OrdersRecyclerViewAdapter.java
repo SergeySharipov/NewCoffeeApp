@@ -50,6 +50,9 @@ public class OrdersRecyclerViewAdapter extends
         if (!items.isEmpty() && items.get(0) instanceof Order) {
             mValues = (List<Order>) items;
             notifyDataSetChanged();
+        } else {
+            mValues.clear();
+            notifyDataSetChanged();
         }
     }
 

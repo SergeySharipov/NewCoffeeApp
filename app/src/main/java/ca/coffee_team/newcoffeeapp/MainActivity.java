@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onItemClick(ModelObject item) {
+    public void onShowOrdersClick(ModelObject item) {
         if (item instanceof Customer) {
             StandardFragment standardFragment;
 
@@ -204,6 +204,11 @@ public class MainActivity extends AppCompatActivity implements
                     break;
             }
         }
+    }
+
+    @Override
+    public void onDeleteClick() {
+        onBackPressed();
     }
 
     @Override

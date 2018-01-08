@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.coffee_team.newcoffeeapp.R;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
@@ -32,6 +33,18 @@ public class ProductFragment extends StandardItemFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
+
+        view.findViewById(R.id.delete_product_but).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mItem.getId()!=null) {
+                    mServerAPIHelper.deleteProduct(mItem.getId());
+                    mOnItemClickListener.onDeleteClick();
+                    Toast.makeText(getContext(),"Product deleted",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         mProductName = view.findViewById(R.id.product_name);
         mPrice = view.findViewById(R.id.price);
         return view;

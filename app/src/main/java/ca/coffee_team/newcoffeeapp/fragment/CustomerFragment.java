@@ -22,7 +22,6 @@ public class CustomerFragment extends StandardItemFragment {
     private TextView mEmail;
     private TextView mContactPerson;
     private Customer mItem;
-    private OnItemClickListener mOnItemClickListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,7 +46,17 @@ public class CustomerFragment extends StandardItemFragment {
         view.findViewById(R.id.show_orders_but).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnItemClickListener.onItemClick(mItem);
+                mOnItemClickListener.onShowOrdersClick(mItem);
+            }
+        });
+        view.findViewById(R.id.delete_customer_but).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mItem.getId()!=null) {
+                    mServerAPIHelper.deleteCustomer(mItem.getId());
+                    mOnItemClickListener.onDeleteClick();
+                    Toast.makeText(getContext(),"Customer deleted",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -85,22 +94,5 @@ public class CustomerFragment extends StandardItemFragment {
         mContactPerson.setText(mItem.getContactPerson());
 
         itemUpdated();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnItemClickListener) {
-            mOnItemClickListener = (OnItemClickListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnItemClickListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mOnItemClickListener = null;
     }
 }

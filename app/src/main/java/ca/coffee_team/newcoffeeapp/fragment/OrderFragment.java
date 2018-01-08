@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.coffee_team.newcoffeeapp.R;
 import ca.coffee_team.newcoffeeapp.model.Customer;
@@ -44,6 +45,18 @@ public class OrderFragment extends StandardItemFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
+
+        view.findViewById(R.id.delete_order_but).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mItem.getId()!=null) {
+                    mServerAPIHelper.deleteOrder(mItem.getId());
+                    mOnItemClickListener.onDeleteClick();
+                    Toast.makeText(getContext(),"Order deleted",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         mAmount = view.findViewById(R.id.amount);
         mIsPaid = view.findViewById(R.id.isPaid);
         mDateCreated = view.findViewById(R.id.data_created);

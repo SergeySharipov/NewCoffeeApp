@@ -65,6 +65,7 @@ public class OrdersFragment extends StandardListFragment {
         if (!list.isEmpty() && list.get(0) instanceof Order) {
             mListItems.clear();
             mListItems.addAll((List<? extends Order>) list);
-        }
+        }else
+            mListItems.clear();
     }
 }

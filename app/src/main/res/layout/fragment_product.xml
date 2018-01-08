@@ -9,15 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
             <include layout="@layout/content_fragment_product"/>
 
-        </FrameLayout>
+            <Button
+                android:id="@+id/delete_product_but"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Delete" />
+
+        </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

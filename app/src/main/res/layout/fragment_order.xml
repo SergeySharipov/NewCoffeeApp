@@ -23,6 +23,13 @@
 
             <include layout="@layout/content_fragment_order"/>
 
+            <Button
+                android:id="@+id/delete_order_but"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Delete" />
+
         </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

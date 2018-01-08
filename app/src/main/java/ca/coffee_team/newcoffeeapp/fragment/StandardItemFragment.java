@@ -1,5 +1,6 @@
 package ca.coffee_team.newcoffeeapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import ca.coffee_team.newcoffeeapp.api.ItemResponseCallback;
 
 public abstract class StandardItemFragment extends StandardFragment implements ItemResponseCallback {
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    protected OnItemClickListener mOnItemClickListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,23 @@ public abstract class StandardItemFragment extends StandardFragment implements I
     public void itemUpdated() {
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnItemClickListener) {
+            mOnItemClickListener = (OnItemClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnItemClickListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnItemClickListener = null;
     }
 
 }

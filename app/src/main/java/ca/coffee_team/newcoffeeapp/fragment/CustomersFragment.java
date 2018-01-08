@@ -48,6 +48,7 @@ public class CustomersFragment extends StandardListFragment {
     void swapListItems(List<? extends ModelObject> list) {
         if(!list.isEmpty()&&list.get(0) instanceof Customer) {
             mListItems = (List<Customer>) list;
-        }
+        }else
+            mListItems.clear();
     }
 }

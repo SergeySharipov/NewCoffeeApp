@@ -49,6 +49,9 @@ public class ProductsRecyclerViewAdapter extends
         if (!items.isEmpty() && items.get(0) instanceof Product) {
             mValues = (List<Product>) items;
             notifyDataSetChanged();
+        }else {
+            mValues.clear();
+            notifyDataSetChanged();
         }
     }
 
