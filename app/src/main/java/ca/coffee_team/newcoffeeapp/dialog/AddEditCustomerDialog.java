@@ -33,6 +33,7 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
     private String mCustomerId;
     private Button mOkButton;
     private ServerAPIHelper mServerAPIHelper;
+    private TextView mTitle;
 
     public static AddEditCustomerDialog newInstance(String customerId) {
         AddEditCustomerDialog addEditCustomerDialog = new AddEditCustomerDialog();
@@ -60,7 +61,8 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_edit_customer, null);
 
-        ((TextView) view.findViewById(R.id.title)).setText(TITLE);
+        mTitle=view.findViewById(R.id.title);
+        mTitle.setText(TITLE);
 
         view.findViewById(R.id.cancel_but).setOnClickListener(this);
         mOkButton = view.findViewById(R.id.ok_but);
@@ -133,6 +135,7 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
             mContactPerson.setText(mItem.getContactPerson());
 
             mOkButton.setText("Edit");
+            mTitle.setText("Edit customer");
         }
     }
 }

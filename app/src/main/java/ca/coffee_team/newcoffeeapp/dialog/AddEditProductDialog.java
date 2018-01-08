@@ -29,6 +29,7 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
     private String mProductId;
     private ServerAPIHelper mServerAPIHelper;
     private Button mOkButton;
+    private TextView mTitle;
 
     public static AddEditProductDialog newInstance(String productId) {
         AddEditProductDialog addEditProductDialog = new AddEditProductDialog();
@@ -56,8 +57,9 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_edit_product, null);
 
-        ((TextView)view.findViewById(R.id.title)).setText(TITLE);
-
+        mTitle=view.findViewById(R.id.title);
+        mTitle.setText(TITLE);
+        
         view.findViewById(R.id.cancel_but).setOnClickListener(this);
         mOkButton = view.findViewById(R.id.ok_but);
         mOkButton.setOnClickListener(this);
@@ -118,6 +120,7 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
             mProductName.setText(mItem.getProductName());
             mPrice.setText(mItem.getPrice()+"");
             mOkButton.setText("Edit");
+            mTitle.setText("Edit product");
         }
     }
 }

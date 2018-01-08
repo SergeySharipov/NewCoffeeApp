@@ -43,6 +43,7 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
     private Spinner mBusinessNameSpinner;
     private Spinner mProductNameSpinner;
     private Button mOkButton;
+    private TextView mTitle;
 
     public static AddEditOrderDialog newInstance(String orderId) {
         AddEditOrderDialog addEditOrderDialog = new AddEditOrderDialog();
@@ -80,7 +81,8 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_edit_order, null);
 
-        ((TextView) view.findViewById(R.id.title)).setText(TITLE);
+        mTitle=view.findViewById(R.id.title);
+        mTitle.setText(TITLE);
 
         view.findViewById(R.id.cancel_but).setOnClickListener(this);
         mOkButton = view.findViewById(R.id.ok_but);
@@ -157,6 +159,7 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
             setSelectedProductNameSpinner();
 
             mOkButton.setText("Edit");
+            mTitle.setText("Edit order");
         }
     }
 
