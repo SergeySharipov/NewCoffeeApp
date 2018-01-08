@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
     private Product mItem;
     private String mProductId;
     private ServerAPIHelper mServerAPIHelper;
+    private Button mOkButton;
 
     public static AddEditProductDialog newInstance(String productId) {
         AddEditProductDialog addEditProductDialog = new AddEditProductDialog();
@@ -57,7 +59,8 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
         ((TextView)view.findViewById(R.id.title)).setText(TITLE);
 
         view.findViewById(R.id.cancel_but).setOnClickListener(this);
-        view.findViewById(R.id.ok_but).setOnClickListener(this);
+        mOkButton = view.findViewById(R.id.ok_but);
+        mOkButton.setOnClickListener(this);
 
         mProductName = view.findViewById(R.id.product_name_et);
         mPrice = view.findViewById(R.id.price_et);
@@ -114,6 +117,7 @@ public class AddEditProductDialog extends DialogFragment implements View.OnClick
             mItem = (Product) item;
             mProductName.setText(mItem.getProductName());
             mPrice.setText(mItem.getPrice()+"");
+            mOkButton.setText("Edit");
         }
     }
 }

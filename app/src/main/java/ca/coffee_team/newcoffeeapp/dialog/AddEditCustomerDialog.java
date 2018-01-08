@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
     private EditText mContactPerson;
     private Customer mItem;
     private String mCustomerId;
+    private Button mOkButton;
     private ServerAPIHelper mServerAPIHelper;
 
     public static AddEditCustomerDialog newInstance(String customerId) {
@@ -60,7 +62,8 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
         ((TextView) view.findViewById(R.id.title)).setText(TITLE);
 
         view.findViewById(R.id.cancel_but).setOnClickListener(this);
-        view.findViewById(R.id.ok_but).setOnClickListener(this);
+        mOkButton = view.findViewById(R.id.ok_but);
+        mOkButton.setOnClickListener(this);
 
         mBusinessName = view.findViewById(R.id.business_name_et);
         mAddress = view.findViewById(R.id.address_et);
@@ -120,10 +123,13 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
     @Override
     public void updateItem(ModelObject item) {
         mItem = (Customer) item;
+
         mBusinessName.setText(mItem.getBusinessName());
         mAddress.setText(mItem.getAddress());
         mTelephone.setText(mItem.getTelephone());
         mEmail.setText(mItem.getEmail());
         mContactPerson.setText(mItem.getContactPerson());
+
+        mOkButton.setText("Edit");
     }
 }

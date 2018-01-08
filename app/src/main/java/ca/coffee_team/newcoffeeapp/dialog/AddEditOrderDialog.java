@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -41,6 +42,7 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
     private List<Product> mListProducts;
     private Spinner mBusinessNameSpinner;
     private Spinner mProductNameSpinner;
+    private Button mOkButton;
 
     public static AddEditOrderDialog newInstance(String orderId) {
         AddEditOrderDialog addEditOrderDialog = new AddEditOrderDialog();
@@ -81,7 +83,8 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
         ((TextView) view.findViewById(R.id.title)).setText(TITLE);
 
         view.findViewById(R.id.cancel_but).setOnClickListener(this);
-        view.findViewById(R.id.ok_but).setOnClickListener(this);
+        mOkButton = view.findViewById(R.id.ok_but);
+        mOkButton.setOnClickListener(this);
 
         mBusinessNameSpinner = view.findViewById(R.id.business_name_spinner);
         mProductNameSpinner = view.findViewById(R.id.product_name_spinner);
@@ -152,6 +155,8 @@ public class AddEditOrderDialog extends DialogFragment implements View.OnClickLi
 
             setSelectedBusinessNameSpinner();
             setSelectedProductNameSpinner();
+
+            mOkButton.setText("Edit");
         }
     }
 
