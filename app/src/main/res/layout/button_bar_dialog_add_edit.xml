@@ -10,7 +10,7 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:id="@+id/cancel_but"
-        android:text="Cancel" />
+        android:text="@string/cancel" />
 
     <Button
         android:layout_width="0dp"
@@ -18,5 +18,5 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:id="@+id/ok_but"
-        android:text="Add" />
+        android:text="@string/add" />
 </LinearLayout>

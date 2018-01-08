@@ -8,7 +8,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amount:" />
+            android:text="@string/amount" />
 
         <TextView
             android:id="@+id/amount"
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Is paid:" />
+            android:text="@string/is_paid" />
 
         <TextView
             android:id="@+id/isPaid"
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data created:" />
+            android:text="@string/data_created" />
 
         <TextView
             android:id="@+id/data_created"

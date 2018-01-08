@@ -27,7 +27,7 @@
                     android:id="@+id/business_name_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Business name"
+                    android:hint="@string/business_name_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -43,7 +43,7 @@
                     android:id="@+id/address_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Address"
+                    android:hint="@string/address_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -59,7 +59,7 @@
                     android:id="@+id/telephone_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Telephone"
+                    android:hint="@string/telephone_hint"
                     android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -75,7 +75,7 @@
                     android:id="@+id/email_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email_hint"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -91,7 +91,7 @@
                     android:id="@+id/contact_person_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contact person"
+                    android:hint="@string/contact_person_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true" />

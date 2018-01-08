@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Business name:"/>
+            android:text="@string/business_name_hint"/>
 
         <Spinner
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Product name"/>
+            android:text="@string/product_name_hint"/>
 
         <Spinner
             android:layout_width="match_parent"
@@ -40,14 +40,14 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1">
 
                 <EditText
                     android:id="@+id/amount_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Amount"
+                    android:hint="@string/amount_hint"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Is paid:"/>
+                android:text="@string/is_paid_hint"/>
 
             <CheckBox
                 android:layout_width="wrap_content"

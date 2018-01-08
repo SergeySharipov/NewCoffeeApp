@@ -27,7 +27,7 @@
                     android:id="@+id/product_name_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Product name"
+                    android:hint="@string/product_name_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -43,7 +43,7 @@
                     android:id="@+id/price_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Price $"
+                    android:hint="@string/price_hint"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:singleLine="true" />

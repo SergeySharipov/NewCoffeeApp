@@ -1,8 +1,42 @@
 <resources>
     <string name="app_name">NewCoffeeApp</string>
+    <!--Tab Titles-->
     <string name="customers">Customers</string>
     <string name="orders">Orders</string>
     <string name="products">Products</string>
-    <!--                      -                            -->
+    <!--button_bar_dialog_add_edit-->
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <!--content_fragment_customer-->
+    <string name="business_name">Business name:</string>
+    <string name="address">Address:</string>
+    <string name="telephone">Telephone:</string>
+    <string name="email">Email:</string>
+    <string name="contact_person">Contact person:</string>
+    <!--content_fragment_order-->
+    <string name="amount">Amount:</string>
+    <string name="is_paid">Is paid:</string>
+    <string name="data_created">Data created:</string>
+    <!--content_fragment_order-->
+    <string name="product_name">Product name:</string>
+    <string name="price">Price:</string>
+    <!--dialog_add_edit_customer-->
+    <!--dialog_add_edit_order-->
+    <!--dialog_add_edit_product-->
+    <string name="business_name_hint">Business name</string>
+    <string name="address_hint">Address</string>
+    <string name="telephone_hint">Telephone</string>
+    <string name="email_hint">Email</string>
+    <string name="contact_person_hint">Contact person</string>
+    <string name="product_name_hint">Product name</string>
+    <string name="amount_hint">Amount</string>
+    <string name="is_paid_hint">Is paid</string>
+    <string name="price_hint">Price $</string>
+    <!--fragment_customer-->
+    <string name="show_orders">Show orders</string>
+    <!--fragment_order-->
+    <!--fragment_product-->
+    <string name="delete">Delete</string>
+
 
 </resources>
