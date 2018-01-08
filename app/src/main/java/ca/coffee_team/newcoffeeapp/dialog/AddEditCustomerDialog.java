@@ -18,6 +18,7 @@ import ca.coffee_team.newcoffeeapp.api.ItemResponseCallback;
 import ca.coffee_team.newcoffeeapp.api.ServerAPIHelper;
 import ca.coffee_team.newcoffeeapp.model.Customer;
 import ca.coffee_team.newcoffeeapp.model.ModelObject;
+import ca.coffee_team.newcoffeeapp.model.Order;
 
 public class AddEditCustomerDialog extends DialogFragment implements View.OnClickListener,
         ItemResponseCallback {
@@ -122,14 +123,16 @@ public class AddEditCustomerDialog extends DialogFragment implements View.OnClic
 
     @Override
     public void updateItem(ModelObject item) {
-        mItem = (Customer) item;
+        if (item instanceof Customer) {
+            mItem = (Customer) item;
 
-        mBusinessName.setText(mItem.getBusinessName());
-        mAddress.setText(mItem.getAddress());
-        mTelephone.setText(mItem.getTelephone());
-        mEmail.setText(mItem.getEmail());
-        mContactPerson.setText(mItem.getContactPerson());
+            mBusinessName.setText(mItem.getBusinessName());
+            mAddress.setText(mItem.getAddress());
+            mTelephone.setText(mItem.getTelephone());
+            mEmail.setText(mItem.getEmail());
+            mContactPerson.setText(mItem.getContactPerson());
 
-        mOkButton.setText("Edit");
+            mOkButton.setText("Edit");
+        }
     }
 }
