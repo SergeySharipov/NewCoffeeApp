@@ -30,13 +30,13 @@ public class ServerAPIHelper implements ServerAPI {
     }
 
     private void updateItem(ModelObject item) {
-        if (mItemResponseCallback != null) {
+        if (mItemResponseCallback != null && item!= null) {
             mItemResponseCallback.updateItem(item);
         }
     }
 
     private void updateListItems(List<? extends ModelObject> list) {
-        if (mItemsResponseCallback != null) {
+        if (mItemsResponseCallback != null && list != null) {
             mItemsResponseCallback.updateListItems(list);
         }
     }
@@ -60,42 +60,21 @@ public class ServerAPIHelper implements ServerAPI {
     }
 
     @Override
-    public Call<List<Customer>> getCustomer(@Path("id") String id) {
-
-        App.getApi().getCustomer(id).enqueue(new Callback<List<Customer>>() {
+    public Call<Customer> getCustomer(@Path("id") String id) {
+        App.getApi().getCustomer(id).enqueue(new Callback<Customer>() {
             @Override
-            public void onResponse(@NonNull Call<List<Customer>> call, @NonNull Response<List<Customer>> response) {
+            public void onResponse(@NonNull Call<Customer> call, @NonNull Response<Customer> response) {
                 Log.e(LOG_NAME, response.message());
-                List<Customer> list = response.body();
-                if (list != null && list.size() > 0)
-                    updateItem(list.get(0));
+                updateItem(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Customer>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Customer> call, @NonNull Throwable t) {
                 Log.e(LOG_NAME, t.getMessage());
             }
         });
         return null;
     }
-
-
-//    @Override
-//    public Call<Customer> getCustomer(@Path("id") String id) {
-//        App.getApi().getCustomer(id).enqueue(new Callback<Customer>() {
-//            @Override
-//            public void onResponse(@NonNull Call<Customer> call, @NonNull Response<Customer> response) {
-//                Log.e(LOG_NAME, response.message());
-//                updateItem(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<Customer> call, @NonNull Throwable t) {
-//                Log.e(LOG_NAME, t.getMessage());
-//            }
-//        });
-//        return null;
-//    }
 
     @Override
     public Call<Customer> addCustomer(@Body Customer customer) {
@@ -179,37 +158,17 @@ public class ServerAPIHelper implements ServerAPI {
         return null;
     }
 
-//    @Override
-//    public Call<Order> getOrder(@Path("id") String id) {
-//        App.getApi().getOrder(id).enqueue(new Callback<Order>() {
-//            @Override
-//            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
-//                Log.e(LOG_NAME, response.message());
-//                updateItem(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
-//                Log.e(LOG_NAME, t.getMessage());
-//            }
-//        });
-//        return null;
-//    }
-
     @Override
-    public Call<List<Order>> getOrder(@Path("id") String id) {
-
-        App.getApi().getOrder(id).enqueue(new Callback<List<Order>>() {
+    public Call<Order> getOrder(@Path("id") String id) {
+        App.getApi().getOrder(id).enqueue(new Callback<Order>() {
             @Override
-            public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {
+            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
                 Log.e(LOG_NAME, response.message());
-                List<Order> list = response.body();
-                if (list != null && list.size() > 0)
-                    updateItem(list.get(0));
+                updateItem(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Order>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
                 Log.e(LOG_NAME, t.getMessage());
             }
         });
@@ -282,37 +241,17 @@ public class ServerAPIHelper implements ServerAPI {
         return null;
     }
 
-//    @Override
-//    public Call<Product> getProductId(@Path("id") String id) {
-//        App.getApi().getProductId(id).enqueue(new Callback<Product>() {
-//            @Override
-//            public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
-//                Log.e(LOG_NAME, response.message());
-//                updateItem(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<Product> call, @NonNull Throwable t) {
-//                Log.e(LOG_NAME, t.getMessage());
-//            }
-//        });
-//        return null;
-//    }
-
     @Override
-    public Call<List<Product>> getProduct(@Path("id") String id) {
-
-        App.getApi().getProduct(id).enqueue(new Callback<List<Product>>() {
+    public Call<Product> getProduct(@Path("id") String id) {
+        App.getApi().getProduct(id).enqueue(new Callback<Product>() {
             @Override
-            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+            public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
                 Log.e(LOG_NAME, response.message());
-                List<Product> list = response.body();
-                if (list != null && list.size() > 0)
-                    updateItem(list.get(0));
+                updateItem(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Product> call, @NonNull Throwable t) {
                 Log.e(LOG_NAME, t.getMessage());
             }
         });

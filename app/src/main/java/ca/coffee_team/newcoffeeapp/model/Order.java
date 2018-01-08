@@ -20,10 +20,10 @@ orderSchema: new mongoose.Schema({
         "amount": 25
 */
 public class Order extends ModelObject {
-    @SerializedName("customerID")
+    @SerializedName("customerId")
     @Expose
     private String mCustomerId;
-    @SerializedName("product")
+    @SerializedName("productId")
     @Expose
     private String mProduct;
     @SerializedName("amount")
